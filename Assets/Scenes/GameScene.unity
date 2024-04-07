@@ -1300,7 +1300,8 @@ PrefabInstance:
       propertyPath: m_Padding.m_Bottom
       value: 5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8434603271455339657, guid: 627675551f649400ea30c1b4edb70f23, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1514,7 +1515,8 @@ PrefabInstance:
       propertyPath: m_Padding.m_Bottom
       value: 5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8434603271455339657, guid: 627675551f649400ea30c1b4edb70f23, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2536,11 +2538,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3912254128442737562, guid: 627675551f649400ea30c1b4edb70f23, type: 3}
   m_PrefabInstance: {fileID: 1003525754}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1296453507 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3912254128442737253, guid: 627675551f649400ea30c1b4edb70f23, type: 3}
-  m_PrefabInstance: {fileID: 527247365}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &1296453508 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3912254128442737562, guid: 627675551f649400ea30c1b4edb70f23, type: 3}
@@ -3032,10 +3029,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1686831320}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbf730a44675640fcaf68049f433753c, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c6483b3f38c6418aacfaea1123080ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  QuitButton: {fileID: 1296453507}
+  QuitButton: {fileID: 0}
   Content: {fileID: 1822499878}
   PauseMenuTab: {fileID: 1595696947}
   SettingsMenuTab: {fileID: 358297207}

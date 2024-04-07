@@ -76,7 +76,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 700154185567835737}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92c753a7e1b1e46c6bec1cd03bde0196, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f451908c10284852b8f00cf88e003e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
@@ -123,11 +123,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 700154185766278688}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2056758a8068d47dea9a5bbee1a21cfd, type: 3}
+  m_Script: {fileID: 11500000, guid: 27af84bd3a6564eb5a1501e5da0a7218, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mixer: {fileID: 24100000, guid: 6aaec4e9836b94287ba7f62ae8b8dc38, type: 2}
-  audioSourcePrefab: {fileID: 5304750828136170511, guid: 0211df8a39cfe4c008154d988fa94407, type: 3}
+  audioSourcePrefab: {fileID: 5304750828136170511, guid: c618699a796894436aad3fc3b5341dbe, type: 3}
   AmbianceSoundInfoID: Ambiance/Woods
   MusicSoundInfoID: Music/LD54
 --- !u!1 &700154186250235073
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 700154186250235073}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92c753a7e1b1e46c6bec1cd03bde0196, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f451908c10284852b8f00cf88e003e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
@@ -281,7 +281,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4495126892458148760}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92c753a7e1b1e46c6bec1cd03bde0196, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f451908c10284852b8f00cf88e003e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
@@ -327,7 +327,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8799399376963914872}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92c753a7e1b1e46c6bec1cd03bde0196, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f451908c10284852b8f00cf88e003e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sounds: []
