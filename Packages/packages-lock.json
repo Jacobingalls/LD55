@@ -112,7 +112,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.textmeshpro": {
-      "version": "3.0.6",
+      "version": "3.0.8",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -162,10 +162,13 @@
       "url": "https://packages.unity.com"
     },
     "info.jacobingalls.jamkit": {
-      "version": "file:/Users/jacobingalls/offline/JamKit",
+      "version": "git@github.com:Jacobingalls/JamKit.git",
       "depth": 0,
-      "source": "local",
-      "dependencies": {}
+      "source": "git",
+      "dependencies": {
+        "com.unity.textmeshpro": "3.0.8"
+      },
+      "hash": "b949ef606cf7fa73093d9ebf8e2a507249c8f855"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
