@@ -4,9 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
-using DG.Tweening;
-using DG.Tweening.Core;
-using DG.Tweening.Plugins.Options;
 
 public class ButtonHighlightExpand : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -16,40 +13,39 @@ public class ButtonHighlightExpand : MonoBehaviour, IPointerEnterHandler, IPoint
 
     private TextMeshProUGUI _text;
     private float _originalFontSize;
-    private TweenerCore<float, float, FloatOptions> _growthAnimation;
-    
-    void OnEnable()
+
+    public float current = 0;
+    public float desired = 0;
+
+    public void Awake()
     {
-        if (isText)
-        {
-            _text = GetComponent<TextMeshProUGUI>();
-            _originalFontSize = _text.fontSize;
+        _text = GetComponent<TextMeshProUGUI>();
+        _originalFontSize = _text.fontSize;
+    }
+
+    public void Update()
+    {
+        if (current != desired) {
+            if (current > desired) {
+                current -= Time.deltaTime;
+                current = Mathf.Max(current, desired);
+            } else {
+                current += Time.deltaTime;
+                current = Mathf.Min(current, desired);
+            }
+
+            _text.fontSize = Mathf.Lerp(_originalFontSize, _originalFontSize * scaleFactor, current / duration);
         }
     }
 
-    void OnDisable()
-    {
-        if (isText)
-        {
-            _text.fontSize = _originalFontSize;
-        }
-    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (isText)
-        {
-            _text.fontSize = _originalFontSize;
-            _growthAnimation = _text.DOFontSize(_originalFontSize * scaleFactor, duration);
-        }
+        desired = duration;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (isText)
-        {
-            _growthAnimation.Kill();
-            _text.DOFontSize(_originalFontSize, duration);
-        }
+        desired = 0;
     }
 }
