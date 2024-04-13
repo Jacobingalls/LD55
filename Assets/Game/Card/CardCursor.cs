@@ -6,21 +6,36 @@ using UnityEngine.EventSystems;
 public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
 
+    public float handScale = 1.0f;
+    public Vector3 handPosition;
+    public float handHoverScale = 1.0f;
+    public Vector3 handHoverOffset = new Vector3(0, 0.8f, -1f);
+
     public Card card;
     CanvasGroup cardCanvasGroup;
     public AnimationCurve cardProgressCurve;
-    Vector3 originalPosition;
 
     public GameObject placementIndicator;
     SpriteRenderer placementIndicatorSpriteRenderer;
     public AnimationCurve placementIndicatorCurve;
     Vector3 originalPlacementIndicatorScale;
 
+    Vector3 targetPosition;
+    Vector3 targetScale;
+    Quaternion targetRotation = Quaternion.Euler(0, 0, 0);
+    float positionLerp = 10f;
+    float scaleLerp = 10f;
+    float rotationLerp = 10f;
+
+
+
+
     [Range(0f, 1f)]
     public float progress;
 
     public bool isSelected = false;
-    public bool isHoveringMap = false;
+    public bool isHovered = false;
+    public CardDrop cardDrop;
 
     [Range(1f, 5f)]
     public float speed = 1f; 
@@ -28,13 +43,13 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     // Start is called before the first frame update
     void Start()
     {
-        Physics2DRaycaster physicsRaycaster = FindObjectOfType<Physics2DRaycaster>();
-        Camera.main.gameObject.AddComponent<Physics2DRaycaster>();
-
         cardCanvasGroup = card.GetComponent<CanvasGroup>();
         placementIndicatorSpriteRenderer = placementIndicator.GetComponent<SpriteRenderer>();
         originalPlacementIndicatorScale = placementIndicator.transform.localScale;
-        originalPosition = gameObject.transform.position;
+        handPosition = gameObject.transform.position;
+
+        targetPosition = gameObject.transform.localPosition;
+        targetScale = gameObject.transform.localScale;
     }
 
     // Update is called once per frame
@@ -42,15 +57,29 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     {
 
         // Advance time
-        progress = Mathf.Clamp01(progress + ( (isHoveringMap ? 1 : -1) * Time.deltaTime * speed));
+        progress = Mathf.Clamp01(progress + ( (cardDrop != null ? 1 : -1) * Time.deltaTime * speed));
 
-        if (isSelected)
-        {
+        if (isSelected) {
             MoveWithCursor();
-        } else
-        {
-            isHoveringMap = false;
-            gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, originalPosition, 0.1f);
+        } else {
+
+            // Check if we were dropped.
+            if (cardDrop != null) {
+                GameObject.Destroy(gameObject); // We are all done!
+                return;
+            }
+
+            if (isHovered) {
+                targetPosition = handPosition + handHoverOffset;
+                targetScale = new Vector3(handHoverScale, handHoverScale, handHoverScale);
+            } else {
+                targetPosition = handPosition;
+                targetScale = new Vector3(handScale, handScale, handScale);
+            }
+
+            gameObject.transform.localPosition = Vector3.Lerp(gameObject.transform.localPosition, targetPosition, positionLerp * Time.deltaTime);
+            gameObject.transform.localScale = Vector3.Lerp(gameObject.transform.localScale, targetScale, scaleLerp * Time.deltaTime);
+            gameObject.transform.localRotation = Quaternion.Lerp(gameObject.transform.localRotation, targetRotation, rotationLerp * Time.deltaTime);
         }
 
         float cardScale = Mathf.Max(cardProgressCurve.Evaluate(progress), 0.0001f);
@@ -77,14 +106,16 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
             if (hit.collider == null) { continue; }
             CardDrop drop = hit.transform.gameObject.GetComponent<CardDrop>();
             if (drop == null) { continue; }
-            gameObject.transform.position = hit.point - Camera.main.transform.forward;
+            Vector3 realHit = hit.point;
+            realHit.z = gameObject.transform.position.z;
+            gameObject.transform.position = realHit;
             if (drop.isValidDrop == false)
             {
-                isHoveringMap = false;
+                cardDrop = null;
                 continue;
             } else
             {
-                isHoveringMap = true;
+                cardDrop = drop;
             }
             break; // Don't do it again in the case there is more than one!
         }
@@ -120,7 +151,6 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     public void OnPointerDown(PointerEventData eventData)
     {
         isSelected = true;
-        originalPosition = gameObject.transform.position;
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -130,11 +160,11 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        
+        isHovered = true;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        
+        isHovered = false;
     }
 }
