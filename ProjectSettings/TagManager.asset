@@ -48,3 +48,6 @@ TagManager:
   - name: Highlights
     uniqueID: 1893787467
     locked: 0
+  - name: UI
+    uniqueID: 770170999
+    locked: 0

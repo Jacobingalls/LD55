@@ -28,14 +28,14 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     float rotationLerp = 10f;
 
 
-
+    GridManager gridManager;
 
     [Range(0f, 1f)]
     public float progress;
 
     public bool isSelected = false;
     public bool isHovered = false;
-    public CardDrop cardDrop;
+    public CardExecutionContext? context;
 
     [Range(1f, 5f)]
     public float speed = 1f; 
@@ -50,6 +50,8 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
         targetPosition = gameObject.transform.localPosition;
         targetScale = gameObject.transform.localScale;
+
+        gridManager = GameObject.FindFirstObjectByType<GridManager>();
     }
 
     // Update is called once per frame
@@ -57,17 +59,11 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     {
 
         // Advance time
-        progress = Mathf.Clamp01(progress + ( (cardDrop != null ? 1 : -1) * Time.deltaTime * speed));
+        progress = Mathf.Clamp01(progress + ( (context != null ? 1 : -1) * Time.deltaTime * speed));
 
         if (isSelected) {
             MoveWithCursor();
         } else {
-
-            // Check if we were dropped.
-            if (cardDrop != null) {
-                GameObject.Destroy(gameObject); // We are all done!
-                return;
-            }
 
             if (isHovered) {
                 targetPosition = handPosition + handHoverOffset;
@@ -97,55 +93,18 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     void MoveWithCursor()
     {
-        
+        Vector3 mousePos = Input.mousePosition;
+        mousePos.z = 10f;
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
+        gameObject.transform.position = worldPosition;
 
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit[] hits = Physics.RaycastAll(ray);
-        foreach (var hit in hits)
+        CardExecutionContext context = new CardExecutionContext(card.actionDefinition, gridManager, gameObject.transform.position);
+        if (context.Validate())
         {
-            if (hit.collider == null) { continue; }
-            CardDrop drop = hit.transform.gameObject.GetComponent<CardDrop>();
-            if (drop == null) { continue; }
-            Vector3 realHit = hit.point;
-            realHit.z = gameObject.transform.position.z;
-            gameObject.transform.position = realHit;
-            if (drop.isValidDrop == false)
-            {
-                cardDrop = null;
-                continue;
-            } else
-            {
-                cardDrop = drop;
-            }
-            break; // Don't do it again in the case there is more than one!
+            this.context = context;
+            return;
         }
-
-
-        //if (Physics.Raycast(ray, out var hit))
-        //{
-        //    //Debug.Log(Input.mousePosition);
-        //    //gameObject.transform.position = hit.point - new Vector3(0, 0, Camera.main.nearClipPlane);
-        //    gameObject.transform.position = hit.point - Camera.main.transform.forward;
-        //    //gameObject.transform.position = new Vector3(hit.point.x, hit.point.y, hit.transform.position.z - 1f);
-        //    isHoveringMap = hit.transform.gameObject.GetComponent<CardDrop>() != null;
-        //}
-
-        //RaycastHit2D[] hits = Physics2D.GetRayIntersectionAll(Camera.main.ScreenPointToRay(Input.mousePosition));
-        //foreach (var hit in hits)
-        //{
-        //    if (hit.collider == null) { continue; }
-        //    CardDrop drop = hit.transform.gameObject.GetComponent<CardDrop>();
-        //    if (drop == null) { continue; }
-
-        //    Vector3 mousePos = Input.mousePosition;
-        //    mousePos.z = 10f;
-        //    Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
-        //    gameObject.transform.position = worldPosition;
-
-        //    if (drop.isValidDrop == false) { continue; }
-        //    isHoveringMap = hit.transform.gameObject.GetComponent<CardDrop>() != null;
-        //    break; // Don't do it again in the case there is more than one!
-        //}
+        this.context = null;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -156,6 +115,13 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     public void OnPointerUp(PointerEventData eventData)
     {
         isSelected = false;
+
+        // Check if we were dropped.
+        if (context != null)
+        {
+            PlayOnCardDrop();
+            return;
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -166,5 +132,13 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     public void OnPointerExit(PointerEventData eventData)
     {
         isHovered = false;
+    }
+
+    public void PlayOnCardDrop()
+    {
+        if (context != null) {
+            context?.Execute();
+            GameObject.Destroy(gameObject); // We are all done!
+        }
     }
 }
