@@ -7,12 +7,12 @@ public class Deck : MonoBehaviour, IPointerDownHandler
 {
 
     public GameObject cardCursorPrefab;
-    public Hand hand;
+    Hand hand;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        hand = GameObject.FindFirstObjectByType<Hand>();
     }
 
     // Update is called once per frame
