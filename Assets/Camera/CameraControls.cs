@@ -53,13 +53,10 @@ public class CameraControls : MonoBehaviour
         
         if (_lookingForPanGesture)
         {
-            if (Time.realtimeSinceStartup - _startTime > 0.15f)
-            {
-                _lastMousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-                _lookingForPanGesture = false;
-                CameraIsPanning = true;
-                Debug.Log("Panning camera...");
-            }
+            _lastMousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+            _lookingForPanGesture = false;
+            CameraIsPanning = true;
+            Debug.Log("Panning camera...");
         }
 
         if (CameraIsPanning)
