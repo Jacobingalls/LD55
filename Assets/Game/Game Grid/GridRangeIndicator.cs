@@ -11,7 +11,7 @@ public class GridRangeIndicator : MonoBehaviour
         public int range;
         public bool ignoringEntities;
 
-        public override bool Equals(object? obj) => obj is Configuration other && this.Equals(other);
+        public override bool Equals(object obj) => obj is Configuration other && this.Equals(other);
 
         public bool Equals(Configuration p) {
 
@@ -181,7 +181,6 @@ public class GridRangeIndicator : MonoBehaviour
         ClearRangeVisuals(purgeCache: false);
 
         var tiles = gridManager.BFS((Vector3Int)configuration.origin, configuration.range, ignoringObstacles: configuration.ignoringEntities);
-        int i = 0;
         foreach (var tile in tiles)
         { 
             CreateTileOutline(gridManager, tile.x, tile.y, configuration);

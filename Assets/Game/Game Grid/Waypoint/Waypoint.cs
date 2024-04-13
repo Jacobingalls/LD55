@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-#nullable enable
-
 public enum WaypointDirection
 {
     Unspecified,
@@ -54,4 +52,3 @@ public class Waypoint : MonoBehaviour
         return string.Format("<Waypoint {0}>", GridManager.PositionForWaypoint(this));
     }
 }
-#nullable disable

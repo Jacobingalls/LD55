@@ -50,7 +50,7 @@ public class WiggleAnimation : MonoBehaviour
 
         if (totalDistance >= DistanceForFootstep)
         {
-            PlayFootstepAudio();
+            //PlayFootstepAudio();
             totalDistance -= DistanceForFootstep;
         }
 

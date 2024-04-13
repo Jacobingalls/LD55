@@ -12,8 +12,6 @@ using UnityEngine.UIElements;
 using static UnityEngine.EventSystems.EventTrigger;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
-#nullable enable
-
 public struct TileData
 {
     public Vector2Int Position;
@@ -49,7 +47,7 @@ public class GridManager : MonoBehaviour
 
     public HashSet<Waypoint> Waypoints { get { return _waypoints; } }
     private HashSet<Waypoint> _waypoints = new();
-    private Dictionary<Waypoint, Waypoint?> _waypointToPreviousMapping = new();
+    private Dictionary<Waypoint, Waypoint> _waypointToPreviousMapping = new();
     private List<Waypoint> _startingWaypoints = new();
     private bool _dirtyWaypoints = false;
 
@@ -78,7 +76,7 @@ public class GridManager : MonoBehaviour
     {
     }
 
-    public TileConfig? GetTileConfig(Vector2Int position)
+    public TileConfig GetTileConfig(Vector2Int position)
     {
         var tile = Walkable.GetTile((Vector3Int)position);
         if (tile != null)
@@ -174,7 +172,7 @@ public class GridManager : MonoBehaviour
         }
         _dirtyWaypoints = false;
 
-        _waypointToPreviousMapping = new Dictionary<Waypoint, Waypoint?>();
+        _waypointToPreviousMapping = new Dictionary<Waypoint, Waypoint>();
         // Pass One -> get prev mappings
         foreach (Waypoint waypoint in _waypoints)
         {
@@ -730,5 +728,3 @@ public class GridManager : MonoBehaviour
         return new Vector2Int(Mathf.FloorToInt(position.x), Mathf.FloorToInt(position.y));
     }
 }
-
-#nullable disable
