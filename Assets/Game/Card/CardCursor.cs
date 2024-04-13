@@ -9,6 +9,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     public Card card;
     CanvasGroup cardCanvasGroup;
     public AnimationCurve cardProgressCurve;
+    Vector3 originalPosition;
 
     public GameObject placementIndicator;
     SpriteRenderer placementIndicatorSpriteRenderer;
@@ -33,6 +34,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         cardCanvasGroup = card.GetComponent<CanvasGroup>();
         placementIndicatorSpriteRenderer = placementIndicator.GetComponent<SpriteRenderer>();
         originalPlacementIndicatorScale = placementIndicator.transform.localScale;
+        originalPosition = gameObject.transform.position;
     }
 
     // Update is called once per frame
@@ -48,6 +50,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         } else
         {
             isHoveringMap = false;
+            gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, originalPosition, 0.1f);
         }
 
         float cardScale = Mathf.Max(cardProgressCurve.Evaluate(progress), 0.0001f);
@@ -117,6 +120,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     public void OnPointerDown(PointerEventData eventData)
     {
         isSelected = true;
+        originalPosition = gameObject.transform.position;
     }
 
     public void OnPointerUp(PointerEventData eventData)
