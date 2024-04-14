@@ -25,10 +25,16 @@ public class CardForSale : MonoBehaviour
     void Start()
     {
         card.actionDefinition = cardActionDefinition;
+        UpdateUI();
     }
 
     // Update is called once per frame
     void Update()
+    {
+        UpdateUI();
+    }
+
+    public void UpdateUI()
     {
         buyButton.interactable = CanBuy();
         buyButtonLabel.text = CostString();

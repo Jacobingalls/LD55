@@ -9,8 +9,10 @@ deck.draw.number <int>
 
 shop.open
 shop.close
+shop.restock
 shop.wasOpened
 shop.wasClosed
+shop.wasRestocked
 
 level.changed <int>
 

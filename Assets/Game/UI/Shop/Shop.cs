@@ -20,6 +20,7 @@ public class Shop : MonoBehaviour
 
     public GameObject window;
     public GameObject CardForSalePrefab;
+    public GameObject OutOfStockCardPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -73,9 +74,11 @@ public class Shop : MonoBehaviour
         while (section.transform.childCount > 0) { DestroyImmediate(section.transform.GetChild(0).gameObject); }
 
         // Add back in what should be there...
+        int cardsInSection = 0;
         foreach (var (card, count) in stock)
         {
             if (count <= 0 ) { continue; }
+            cardsInSection += count;
 
             GameObject o = GameObject.Instantiate<GameObject>(CardForSalePrefab, section.transform);
             CardForSale cfs = o.GetComponent<CardForSale>();
@@ -84,6 +87,12 @@ public class Shop : MonoBehaviour
             cfs.cardActionDefinition = card;
             cfs.isSpecial = isSpecial;
 
+        }
+
+        // Add out of stock card if we are out of stock
+        if (cardsInSection <= 0)
+        {
+            GameObject.Instantiate<GameObject>(OutOfStockCardPrefab, section.transform);
         }
     }
 
@@ -115,21 +124,20 @@ public class Shop : MonoBehaviour
 
     public void OpenStore()
     {
-        gameObject.GetComponent<PubSubSender>().Publish("store.wasOpened");
-        PutTopThreeSpecialCardsForSale();
-        UpdateStore();
         window.SetActive(true);
+        gameObject.GetComponent<PubSubSender>().Publish("store.wasOpened");
     }
 
     public void CloseStore()
     {
-        gameObject.GetComponent<PubSubSender>().Publish("store.wasClosed");
         window.SetActive(false);
+        gameObject.GetComponent<PubSubSender>().Publish("store.wasClosed");
     }
 
     public void RefreshSpecial()
     {
-        PutTopSpecialCardForSale();
+        PutTopThreeSpecialCardsForSale();
         UpdateStore();
+        gameObject.GetComponent<PubSubSender>().Publish("store.wasRestocked");
     }
 }
