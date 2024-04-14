@@ -22,8 +22,11 @@ public class Summon : MonoBehaviour
     public SummonDefinition Definition;
     [SerializeField] private Targetable _targetable;
 
+
+    //[HideInInspector]
+    //public LevelManager LevelManager;
     [HideInInspector]
-    public World World;
+    public GameLevel GameLevel;
 
     public string Name
     {
@@ -55,10 +58,10 @@ public class Summon : MonoBehaviour
     void Awake()
     {
         _pubSubSender = GetComponent<PubSubSender>();
-        if (World == null)
+        if (GameLevel == null)
         {
             // PANIK, try to find one
-            World = GameObject.FindObjectOfType<World>();
+            GameLevel = GameObject.FindObjectOfType<GameLevel>();
         }
 
         var abilitiesGO = new GameObject("Abilities");
@@ -110,18 +113,18 @@ public class Summon : MonoBehaviour
 
     Targetable TargetForUnit(SummonAbility ability)
     {
-        if (World.Units.Count == 0)
+        if (GameLevel.Units.Count == 0)
         {
             return null;
         }
 
         Targetable newTarget = null;
-        var bestUnit = World.Units.First();
+        var bestUnit = GameLevel.Units.First();
         switch (_targetPriority)
         {
             case TargetPriority.Closest:
                 var bestUnitDistance = Vector3.Distance(transform.position, bestUnit.transform.position);
-                foreach(var candidateUnit in World.Units)
+                foreach(var candidateUnit in GameLevel.Units)
                 {
                     var candidateUnitDistance = Vector3.Distance(transform.position, candidateUnit.transform.position);
                     if (candidateUnitDistance < bestUnitDistance)
@@ -171,7 +174,7 @@ public class Summon : MonoBehaviour
             originPosition = _abilityOriginTransform.position,
             source = this,
             target = TargetForAbility(ability),
-            world = World
+            world = GameLevel
         };
 
         return context;

@@ -27,7 +27,7 @@ public class SummonAbility : MonoBehaviour
         public Vector3 originPosition;
         public Summon source;
         public Targetable target;
-        public World world;
+        public GameLevel world;
 
         public override string ToString() => $"<ExecutionContext: source={source.Name}, target={target}>";
     }

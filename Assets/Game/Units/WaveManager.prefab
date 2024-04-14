@@ -49,7 +49,27 @@ MonoBehaviour:
     - UnitConfigs:
       - Prefab: {fileID: 4242559653279700501, guid: dcbfbd3ded71d4f1abef69723d87ab50, type: 3}
         SpawnCount: 10
+        UnitsLeftToSpawn: 0
       TimeBetweenUnits: 0.35
-      TimeToNextSubwave: 1
+      TimeToNextSubwave: 4
       IntermixUnitTypes: 0
+      WavePaths: []
+    - UnitConfigs:
+      - Prefab: {fileID: 4242559653279700501, guid: dcbfbd3ded71d4f1abef69723d87ab50, type: 3}
+        SpawnCount: 5
+        UnitsLeftToSpawn: 0
+      - Prefab: {fileID: 4242559653279700501, guid: db54a5995f5f04048893f65dfefac207, type: 3}
+        SpawnCount: 5
+        UnitsLeftToSpawn: 0
+      TimeBetweenUnits: 0.35
+      TimeToNextSubwave: 4
+      IntermixUnitTypes: 1
+      WavePaths: []
+    - UnitConfigs:
+      - Prefab: {fileID: 4242559653279700501, guid: db54a5995f5f04048893f65dfefac207, type: 3}
+        SpawnCount: 10
+        UnitsLeftToSpawn: 0
+      TimeBetweenUnits: 0.5
+      TimeToNextSubwave: 1
+      IntermixUnitTypes: 1
       WavePaths: []

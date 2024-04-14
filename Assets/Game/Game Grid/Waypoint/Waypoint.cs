@@ -1,6 +1,7 @@
 using info.jacobingalls.jamkit;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -24,19 +25,19 @@ public class Waypoint : MonoBehaviour
         public int Weight = 50;
     }
 
-    public GridManager GridManager;
+    public GameLevel GameLevel;
 
     public List<NextWaypoint> Next;
 
     void Awake()
     {
-        if (GridManager == null)
+        if (GameLevel == null)
         {
             // PANIK, try to find one
-            GridManager = GameObject.FindObjectOfType<GridManager>();
+            GameLevel = transform.GetComponentInParent<GameLevel>();
         }
 
-        GridManager.RegisterWaypoint(this, new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y)));
+        GameLevel.GridManager.RegisterWaypoint(this, new Vector2Int(Mathf.FloorToInt(transform.position.x), Mathf.FloorToInt(transform.position.y)));
 
         var visualization = GetComponentInChildren<SpriteRenderer>();
         visualization.enabled = false;
@@ -44,11 +45,12 @@ public class Waypoint : MonoBehaviour
 
     private void OnDestroy()
     {
-        GridManager.UnregisterWaypoint(this);
+        GameLevel.GridManager.UnregisterWaypoint(this);
     }
 
     public override string ToString()
     {
-        return string.Format("<Waypoint {0}>", GridManager.PositionForWaypoint(this));
+        //return string.Format("<Waypoint {0}>", GameLevel.GridManager.PositionForWaypoint(this));
+        return "Waypoint";
     }
 }

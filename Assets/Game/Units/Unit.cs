@@ -8,9 +8,12 @@ using UnityEngine.UIElements;
 [RequireComponent(typeof(PubSubSender))]
 public class Unit : MonoBehaviour, IDamageable
 {
+    delegate void MoveCompletionHandler();
+
     public UnitDefinition Definition;
-    public World World;
     public Material DeathShader;
+
+    private GameLevel _gameLevel;
 
     public float MoveSpeed
     {
@@ -67,20 +70,26 @@ public class Unit : MonoBehaviour, IDamageable
     void Awake()
     {
         _pubSubSender = GetComponent<PubSubSender>();
-        if (World == null)
+        if (_gameLevel == null)
         {
-            // PANIK, try to find one
-            World = GameObject.FindObjectOfType<World>();
+            // PANIK, try to find one in our hierarchy
+            _gameLevel = GetComponentInParent<GameLevel>();
+
+            if (_gameLevel == null)
+            {
+                var levelManager = FindObjectOfType<LevelManager>();
+                _gameLevel = levelManager.ActiveLevel;
+            }
         }
 
         Health = MaxHealth;
 
-        World.RegisterUnit(this);
+        _gameLevel.RegisterUnit(this);
     }
 
     private void OnDestroy()
     {
-        World.UnregisterUnit(this);
+        _gameLevel.UnregisterUnit(this);
     }
 
     // Update is called once per frame
@@ -96,7 +105,12 @@ public class Unit : MonoBehaviour, IDamageable
         if (path.Count == 0) { return; }
 
         moving = true;
-        StartCoroutine(MoveAlongPath(new List<Vector2Int>(path)));
+        MoveCompletionHandler handler = () =>
+        {
+            _gameLevel.UnitHasReachedTheEnd();
+        };
+
+        StartCoroutine(MoveAlongPath(new List<Vector2Int>(path), handler));
     }
 
     bool moving = false;
@@ -106,16 +120,16 @@ public class Unit : MonoBehaviour, IDamageable
         return Vector3.Distance(transform.position, destination) < 0.005f;
     }
 
-    IEnumerator MoveAlongPath(List<Vector2Int> path)
+    IEnumerator MoveAlongPath(List<Vector2Int> path, MoveCompletionHandler completionHandler)
     {
         Vector2Int startNode = path.First();
         path.RemoveAt(0);
 
-        Vector3 startPosition = World.GridManager.TileCoordinateToWorldPosition(startNode);
+        Vector3 startPosition = _gameLevel.GridManager.TileCoordinateToWorldPosition(startNode);
 
         startNode = path.First();
         path.RemoveAt(0);
-        Vector3 nextPosition = World.GridManager.TileCoordinateToWorldPosition(startNode);
+        Vector3 nextPosition = _gameLevel.GridManager.TileCoordinateToWorldPosition(startNode);
 
         var t = 0.0f;
         var speed = MoveSpeed; // meters per second
@@ -135,7 +149,7 @@ public class Unit : MonoBehaviour, IDamageable
                 {
                     t = 0.0f;
                     startPosition = nextPosition;
-                    nextPosition = World.GridManager.TileCoordinateToWorldPosition(path.First());
+                    nextPosition = _gameLevel.GridManager.TileCoordinateToWorldPosition(path.First());
                     path.RemoveAt(0);
                 }
             }
@@ -145,11 +159,15 @@ public class Unit : MonoBehaviour, IDamageable
 
         moving = false;
         transform.position = nextPosition;
+
+        completionHandler();
     }
 
     public void Damage(IDamageSource damageSource)
     {
         Health -= damageSource.GetDamageAmount();
+
+        PlayHurtAudio();
 
         if (Health <= 0)
         {
@@ -159,20 +177,20 @@ public class Unit : MonoBehaviour, IDamageable
 
     void PlayDeathAudio()
     {
-        //AudioManager.Instance.Play("SFX/GenericDeath",
-        //    pitchMin: 0.9f, pitchMax: 1.1f,
-        //    volumeMin: 1.0f, volumeMax: 1.0f,
-        //    position: transform.position,
-        //    minDistance: 10, maxDistance: 20);
+        AudioManager.Instance.Play("Units/Death",
+            pitchMin: 0.9f, pitchMax: 1.1f,
+            volumeMin: 0.25f, volumeMax: 0.25f,
+            position: transform.position,
+            minDistance: 10, maxDistance: 20);
     }
 
     void PlayHurtAudio()
     {
-        //AudioManager.Instance.Play("SFX/GenericHurt",
-        //    pitchMin: 0.9f, pitchMax: 1.1f,
-        //    volumeMin: 0.7f, volumeMax: 0.7f,
-        //    position: transform.position,
-        //    minDistance: 10, maxDistance: 20);
+        AudioManager.Instance.Play("Units/Hit",
+            pitchMin: 0.9f, pitchMax: 1.1f,
+            volumeMin: 1.0f, volumeMax: 1.0f,
+            position: transform.position,
+            minDistance: 10, maxDistance: 20);
     }
 
     public void Kill()

@@ -60,9 +60,9 @@ public class WaveManager : MonoBehaviour
                 UnitConfigs = new List<UnitSpawnConfig> { new() };
             }
 
-            private void SpawnUnit(UnitSpawnConfig unitSpawnConfig, List<Vector2Int> path)
+            private void SpawnUnit(UnitSpawnConfig unitSpawnConfig, List<Vector2Int> path, Transform parentTransform)
             {
-                var go = Instantiate(unitSpawnConfig.Prefab);
+                var go = Instantiate(unitSpawnConfig.Prefab, parentTransform);
                 var unit = go.GetComponent<Unit>();
                 unit.Move(path);
 
@@ -115,7 +115,7 @@ public class WaveManager : MonoBehaviour
                 return null;
             }
 
-            public IEnumerator Spawn()
+            public IEnumerator Spawn(Transform unitParentTransform)
             {
                 var t = 0.0f;
                 var i = 0;
@@ -132,7 +132,7 @@ public class WaveManager : MonoBehaviour
 
                     if (t > TimeBetweenUnits)
                     {
-                        SpawnUnit(activeUnitConfig, WavePaths[i].Path);
+                        SpawnUnit(activeUnitConfig, WavePaths[i].Path, unitParentTransform);
                         t -= TimeBetweenUnits;
                         i = (i + 1) % WavePaths.Count;
 
@@ -151,12 +151,12 @@ public class WaveManager : MonoBehaviour
             Subwaves = new List<Subwave> { new() };
         }
 
-        public IEnumerator Spawn(List<WavePath> wavePaths)
+        public IEnumerator Spawn(List<WavePath> wavePaths, Transform unitParentTransform)
         {
             foreach (var subwave in Subwaves)
             {
                 subwave.WavePaths = wavePaths;
-                yield return subwave.Spawn();
+                yield return subwave.Spawn(unitParentTransform);
 
                 var t = 0.0f;
                 while (t < subwave.TimeToNextSubwave)
@@ -170,22 +170,22 @@ public class WaveManager : MonoBehaviour
 
     public List<Wave> Waves = new List<Wave> { new() };
 
-    private GridManager _gridManager;
+    private GameLevel _gameLevel;
 
     private List<WavePath> _wavePaths = new();
 
     // Start is called before the first frame update
     void Start()
     {
-        _gridManager = FindObjectOfType<GridManager>();
+        _gameLevel = GetComponentInParent<GameLevel>();
 
         var config = new GridRangeIndicator.Configuration();
         config.range = 999;
 
-        var startingWaypoints = _gridManager.GetStartingWaypoints();
+        var startingWaypoints = _gameLevel.GridManager.GetStartingWaypoints();
         foreach (var startingWaypoint in startingWaypoints)
         {
-            var unitPaths = _gridManager.CalculateWaypointPaths(startingWaypoint);
+            var unitPaths = _gameLevel.GridManager.CalculateWaypointPaths(startingWaypoint);
             Debug.Log(startingWaypoint);
             foreach (var unitPath in unitPaths)
             {
@@ -211,7 +211,7 @@ public class WaveManager : MonoBehaviour
         if (_t > secondsBetweenUnitWaves && !__temp_spawnedWave)
         {
             var firstWave = Waves.First();
-            StartCoroutine(firstWave.Spawn(_wavePaths));
+            StartCoroutine(firstWave.Spawn(_wavePaths, unitParentTransform: transform));
             _t -= secondsBetweenUnitWaves;
             __temp_spawnedWave = true;
         }

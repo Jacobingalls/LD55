@@ -22,7 +22,7 @@ public class Projectile : MonoBehaviour, IDamageSource
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private Targetable _target;
     [SerializeField] private GameObject _explosionPrefab;
-    private World _world;
+    private GameLevel _world;
 
     [Header("Movement")]
     [SerializeField] private float _speed = 15;
@@ -50,7 +50,7 @@ public class Projectile : MonoBehaviour, IDamageSource
 
         if (_world == null)
         {
-            _world = FindObjectOfType<World>();
+            _world = FindObjectOfType<GameLevel>();
         }
 
         var units = _world.Units;
@@ -68,10 +68,25 @@ public class Projectile : MonoBehaviour, IDamageSource
     {
         if (target == null)
         {
+            _rb.velocity = transform.up * _speed;
             return;
         }
         _target = target;
         _previousTargetPosition = _target.transform.position;
+    }
+
+    void PlayProjectileFireSound()
+    {
+        AudioManager.Instance.Play("Summons/FireArcaneMissile",
+            pitchMin: 0.6f, pitchMax: 0.8f,
+            volumeMin: 0.15f, volumeMax: 0.17f,
+            position: transform.position,
+            minDistance: 10, maxDistance: 20);
+    }
+
+    public void Start()
+    {
+        PlayProjectileFireSound();
     }
 
     private void FixedUpdate()
