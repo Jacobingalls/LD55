@@ -86,6 +86,20 @@ public struct CardExecutionContext
             }
         }
     }
+
+    public bool clicksToGrid
+    {
+        get
+        {
+            switch (actionDefinition.Target)
+            {
+                case CardActionTarget.EmptyBuildableArea:
+                    return true;
+                default:
+                    return false;
+            }
+        }
+    }
 }
 
 public class Card : MonoBehaviour

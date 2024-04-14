@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
@@ -16,11 +17,10 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     public AnimationCurve cardProgressCurve;
 
     public GameObject placementIndicator;
-    SpriteRenderer placementIndicatorSpriteRenderer;
+    Image placementIndicatorImage;
     public AnimationCurve placementIndicatorCurve;
     Vector3 originalPlacementIndicatorScale;
     public Color placementGoodColor, placementBadColor;
-    public SpriteRenderer placementImage;
 
     Vector3 targetPosition;
     Vector3 targetScale;
@@ -45,10 +45,10 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     void Start()
     {
         cardCanvasGroup = card.GetComponent<CanvasGroup>();
-        placementIndicatorSpriteRenderer = placementIndicator.GetComponent<SpriteRenderer>();
+        placementIndicatorImage = placementIndicator.GetComponent<Image>();
         originalPlacementIndicatorScale = placementIndicator.transform.localScale;
         handPosition = gameObject.transform.position;
-        placementImage.sprite = card.actionDefinition.PlacementIcon;
+        placementIndicatorImage.sprite = card.actionDefinition.PlacementIcon;
 
 
         targetPosition = gameObject.transform.localPosition;
@@ -65,7 +65,17 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         progress = Mathf.Clamp01(progress + ( (context != null ? 1 : -1) * Time.deltaTime * speed));
 
         if (isSelected) {
-            MoveWithCursor();
+            targetScale = new Vector3(1f, 1f, 1f);
+
+            Vector3 pos = MoveWithCursor();
+            if (context?.clicksToGrid == true) {
+                pos = (context?.target?.WorldPosition) ?? Vector3.zero;
+                pos = Camera.main.WorldToScreenPoint(pos);
+                gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, pos, 2 * positionLerp * Time.deltaTime);
+            } else {
+                gameObject.transform.position = pos; // Don't lerp if we aren't clicking to grid
+            }
+            
         } else {
 
             if (isHovered) {
@@ -75,11 +85,12 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
                 targetPosition = handPosition;
                 targetScale = new Vector3(handScale, handScale, handScale);
             }
-
             gameObject.transform.localPosition = Vector3.Lerp(gameObject.transform.localPosition, targetPosition, positionLerp * Time.deltaTime);
-            gameObject.transform.localScale = Vector3.Lerp(gameObject.transform.localScale, targetScale, scaleLerp * Time.deltaTime);
-            gameObject.transform.localRotation = Quaternion.Lerp(gameObject.transform.localRotation, targetRotation, rotationLerp * Time.deltaTime);
         }
+
+        
+        gameObject.transform.localScale = Vector3.Lerp(gameObject.transform.localScale, targetScale, scaleLerp * Time.deltaTime);
+        gameObject.transform.localRotation = Quaternion.Lerp(gameObject.transform.localRotation, targetRotation, rotationLerp * Time.deltaTime);
 
         float cardScale = Mathf.Max(cardProgressCurve.Evaluate(progress), 0.0001f);
         card.transform.localScale = new Vector3(cardScale, cardScale, cardScale);
@@ -94,23 +105,21 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         Color color = placementBadColor;
         if (context is CardExecutionContext con && con.Validate()){ color = placementGoodColor; }
         color.a *= placementIndicatorAlpha;
-        placementIndicatorSpriteRenderer.color = color;
+        placementIndicatorImage.color = color;
     }
 
-    void MoveWithCursor()
+    Vector3 MoveWithCursor()
     {
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = 10f;
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
-        gameObject.transform.position = worldPosition;
-
-        CardExecutionContext context = new CardExecutionContext(card.actionDefinition, gridManager, gameObject.transform.position);
-        if (context.ValidPlacementIgnoringExistingEntities(true))
-        {
+        CardExecutionContext context = new CardExecutionContext(card.actionDefinition, gridManager, worldPosition);
+        if (context.ValidPlacementIgnoringExistingEntities(true)) {
             this.context = context;
-            return;
+        } else {
+            this.context = null;
         }
-        this.context = null;
+        return mousePos;
     }
 
     public void OnPointerDown(PointerEventData eventData)
