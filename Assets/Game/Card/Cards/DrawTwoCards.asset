@@ -16,6 +16,7 @@ MonoBehaviour:
   Description: Draw Two Cards...
   FlavorText: '"Draw Two Cards"'
   Icon: {fileID: 21300000, guid: 30e4397a245cf4f1883bcf3428602b4b, type: 3}
+  PlacementIcon: {fileID: 21300000, guid: c7caaaf209bae472dae37cfe8b444f24, type: 3}
   Color: {r: 0.6226415, g: 0.18503025, b: 0.19578925, a: 1}
   Kind: 3
   Target: 2

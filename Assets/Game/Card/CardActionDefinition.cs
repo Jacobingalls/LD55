@@ -28,6 +28,7 @@ public class CardActionDefinition : ScriptableObject
     public string FlavorText = "\"Flavor text for the action.\"";
 
     public Sprite Icon = null;
+    public Sprite PlacementIcon = null;
     public Color Color = Color.blue;
 
     public CardActionKind Kind = CardActionKind.Other;

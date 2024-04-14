@@ -20,6 +20,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     public AnimationCurve placementIndicatorCurve;
     Vector3 originalPlacementIndicatorScale;
     public Color placementGoodColor, placementBadColor;
+    public SpriteRenderer placementImage;
 
     Vector3 targetPosition;
     Vector3 targetScale;
@@ -27,7 +28,6 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     float positionLerp = 10f;
     float scaleLerp = 10f;
     float rotationLerp = 10f;
-
 
     GridManager gridManager;
 
@@ -48,6 +48,8 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         placementIndicatorSpriteRenderer = placementIndicator.GetComponent<SpriteRenderer>();
         originalPlacementIndicatorScale = placementIndicator.transform.localScale;
         handPosition = gameObject.transform.position;
+        placementImage.sprite = card.actionDefinition.PlacementIcon;
+
 
         targetPosition = gameObject.transform.localPosition;
         targetScale = gameObject.transform.localScale;

@@ -185,8 +185,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  placementGoodColor: {r: 0, g: 0.6117647, b: 1, a: 0}
+  placementGoodColor: {r: 1, g: 1, b: 1, a: 0}
   placementBadColor: {r: 1, g: 0.009691365, b: 0, a: 0}
+  placementImage: {fileID: 5592430338308436216}
   progress: 0
   isSelected: 0
   isHovered: 0
