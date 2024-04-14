@@ -50,6 +50,15 @@ public class Unit : MonoBehaviour, IDamageable
     [SerializeField]
     private int _health;
 
+    public bool Alive
+    {
+        get
+        {
+            return _alive;
+        }
+    }
+    private bool _alive = true;
+
     public int MaxHealth { get { return Definition.BaseMaxHealth; } }
 
     private PubSubSender _pubSubSender;
@@ -168,6 +177,12 @@ public class Unit : MonoBehaviour, IDamageable
 
     public void Kill()
     {
+        if (!_alive)
+        {
+            return;
+        }
+
+        _alive = false;
         Health = 0;
 
         GetComponent<PubSubSender>().Publish("unit.slain");
@@ -195,11 +210,11 @@ public class Unit : MonoBehaviour, IDamageable
 
         foreach (var sr in spriteRenderers)
         {
-            //var dissolveEffect = sr.gameObject.AddComponent<DissolveEffect>();
-            //dissolveEffect.DissolveMaterial = DeathShader;
-            //dissolveEffect.DissolveAmount = 0;
-            //dissolveEffect.Duration = DeathAnimationTime;
-            //dissolveEffect.IsDissolving = true;
+            var dissolveEffect = sr.gameObject.AddComponent<DissolveEffect>();
+            dissolveEffect.DissolveMaterial = DeathShader;
+            dissolveEffect.DissolveAmount = 0;
+            dissolveEffect.Duration = DeathAnimationTime;
+            dissolveEffect.IsDissolving = true;
         }
 
         yield return new WaitForSeconds(DeathAnimationTime);

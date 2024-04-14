@@ -66,6 +66,10 @@ public class Projectile : MonoBehaviour, IDamageSource
 
     public void SetTarget(Targetable target)
     {
+        if (target == null)
+        {
+            return;
+        }
         _target = target;
         _previousTargetPosition = _target.transform.position;
     }

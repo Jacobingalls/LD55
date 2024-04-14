@@ -99,7 +99,6 @@ public class Summon : MonoBehaviour
                 var context = ExecutionContextForAbility(candidateAbility);
                 if (context.target != null && candidateAbility.CanExecute(context))
                 {
-                    Debug.Log("Targetin " + context.target);
                     candidateAbility.Execute(context);
                     break;
                 }
