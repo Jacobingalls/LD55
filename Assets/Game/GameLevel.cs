@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 [RequireComponent(typeof(PubSubSender))]
 [RequireComponent(typeof(PubSubListener))]
@@ -27,6 +28,9 @@ public class GameLevel : MonoBehaviour
     private GridManager _gridManager;
 
     private List<Unit> _units = new();
+    private List<Summon> _summons = new();
+
+    private GameObject _summonsParent;
 
     [SerializeField][Range(1, 40)] private int _startingLife = 10;
     private int _currentLife;
@@ -46,6 +50,8 @@ public class GameLevel : MonoBehaviour
 
     public void Awake()
     {
+        _summonsParent = new GameObject("Summons");
+        _summonsParent.transform.parent = transform;
     }
 
     public void Start()
@@ -90,6 +96,37 @@ public class GameLevel : MonoBehaviour
         get
         {
             return _units.AsReadOnly();
+        }
+    }
+
+    public void RegisterSummon(Summon summon)
+    {
+        if (_summons.Contains(summon))
+        {
+            Debug.LogError("Trying to register summon that has already been registered.");
+            return;
+        }
+
+        _summons.Add(summon);
+        summon.transform.parent = _summonsParent.transform;
+    }
+
+    public void UnregisterSummon(Summon summon)
+    {
+        if (!_summons.Contains(summon))
+        {
+            Debug.LogError("Trying to unregister summon that has not been registered.");
+            return;
+        }
+
+        _summons.Remove(summon);
+    }
+
+    public ReadOnlyCollection<Summon> Summons
+    {
+        get
+        {
+            return _summons.AsReadOnly();
         }
     }
 

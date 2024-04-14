@@ -60,13 +60,26 @@ public class WaveManager : MonoBehaviour
                 UnitConfigs = new List<UnitSpawnConfig> { new() };
             }
 
+            private void PlaySpawnAudio(Vector3 position)
+            {
+                AudioManager.Instance.Play("Units/Spawn",
+                    pitchMin: 0.7f, pitchMax: 1.2f,
+                    volumeMin: 0.45f, volumeMax: 0.55f,
+                    position: position,
+                    minDistance: 10, maxDistance: 20);
+            }
+
             private void SpawnUnit(UnitSpawnConfig unitSpawnConfig, List<Vector2Int> path, Transform parentTransform)
             {
                 var go = Instantiate(unitSpawnConfig.Prefab, parentTransform);
+                var spawnPoint = new Vector3(path.First().x, path.First().y, 0.0f);
+                go.transform.position = spawnPoint;
                 var unit = go.GetComponent<Unit>();
                 unit.Move(path);
 
                 unitSpawnConfig.UnitsLeftToSpawn -= 1;
+
+                PlaySpawnAudio(spawnPoint);
             }
 
             private bool UnitsLeftToSpawn()

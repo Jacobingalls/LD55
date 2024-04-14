@@ -2,6 +2,7 @@ using info.jacobingalls.jamkit;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -10,8 +11,26 @@ public class Unit : MonoBehaviour, IDamageable
 {
     delegate void MoveCompletionHandler();
 
+    [Header("Info")]
     public UnitDefinition Definition;
+
+    [Header("Visuals")]
+    private SpriteProgressBar _healthBar;
     public Material DeathShader;
+    public Material SuccessShader;
+
+    [Range(0.0f, 5.0f)]
+    public float DeathAnimationTime = 0.5f;
+
+    public bool PlayDeathAnimation = true;
+
+    [Range(0.0f, 5.0f)]
+    public float SuccessAnimationTime = 0.25f;
+
+    public bool PlaySuccessAnimation = true;
+
+    [Header("Stats")]
+    [SerializeField]  private int _health;
 
     private GameLevel _gameLevel;
 
@@ -50,8 +69,6 @@ public class Unit : MonoBehaviour, IDamageable
             _pubSubSender.Publish("unit.resources.changed", _health);
         }
     }
-    [SerializeField]
-    private int _health;
 
     public bool Alive
     {
@@ -62,6 +79,8 @@ public class Unit : MonoBehaviour, IDamageable
     }
     private bool _alive = true;
 
+    private bool _invulnerable = false;
+
     public int MaxHealth { get { return Definition.BaseMaxHealth; } }
 
     private PubSubSender _pubSubSender;
@@ -69,6 +88,8 @@ public class Unit : MonoBehaviour, IDamageable
     // Start is called before the first frame update
     void Awake()
     {
+        _healthBar = GetComponentInChildren<SpriteProgressBar>();
+
         _pubSubSender = GetComponent<PubSubSender>();
         if (_gameLevel == null)
         {
@@ -107,7 +128,8 @@ public class Unit : MonoBehaviour, IDamageable
         moving = true;
         MoveCompletionHandler handler = () =>
         {
-            _gameLevel.UnitHasReachedTheEnd();
+            _invulnerable = true;
+            Succeed();
         };
 
         StartCoroutine(MoveAlongPath(new List<Vector2Int>(path), handler));
@@ -165,7 +187,19 @@ public class Unit : MonoBehaviour, IDamageable
 
     public void Damage(IDamageSource damageSource)
     {
+        if (_invulnerable)
+        {
+            return;
+        }
+
+        var oldHealth = Health;
         Health -= damageSource.GetDamageAmount();
+
+        if (_healthBar != null)
+        {
+            Debug.Log("Health was " + oldHealth + " is now " + Health + ", progress is " + (float)Health / (float)MaxHealth);
+            _healthBar.CurrentProgress = ((float)Health / (float)MaxHealth);
+        }
 
         PlayHurtAudio();
 
@@ -195,6 +229,11 @@ public class Unit : MonoBehaviour, IDamageable
 
     public void Kill()
     {
+        if (_invulnerable)
+        {
+            return;
+        }
+
         if (!_alive)
         {
             return;
@@ -207,11 +246,6 @@ public class Unit : MonoBehaviour, IDamageable
 
         StartCoroutine(DeathCoroutine());
     }
-
-    [Range(0.0f, 5.0f)]
-    public float DeathAnimationTime = 0.5f;
-
-    public bool PlayDeathAnimation = true;
 
     private IEnumerator DeathCoroutine()
     {
@@ -240,5 +274,49 @@ public class Unit : MonoBehaviour, IDamageable
         _pubSubSender.Publish("unit.died", this);
 
         Destroy(gameObject);
+    }
+
+    public void Succeed()
+    {
+        GetComponent<PubSubSender>().Publish("unit.reached.goal");
+
+        StartCoroutine(SuccessCoroutine());
+    }
+
+    void PlaySuccessAudio()
+    {
+        AudioManager.Instance.Play("Units/EnterPortal",
+            pitchMin: 0.6f, pitchMax: 1.2f,
+            volumeMin: 0.25f, volumeMax: 0.25f,
+            position: transform.position,
+            minDistance: 10, maxDistance: 20);
+    }
+
+    private IEnumerator SuccessCoroutine()
+    {
+        PlaySuccessAudio();
+
+        if (PlaySuccessAnimation == false)
+        {
+            Destroy(gameObject);
+            yield break;
+        }
+
+        var spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+
+        foreach (var sr in spriteRenderers)
+        {
+            var dissolveEffect = sr.gameObject.AddComponent<DissolveEffect>();
+            dissolveEffect.DissolveMaterial = SuccessShader;
+            dissolveEffect.DissolveAmount = 0;
+            dissolveEffect.Duration = SuccessAnimationTime;
+            dissolveEffect.IsDissolving = true;
+        }
+
+        yield return new WaitForSeconds(SuccessAnimationTime);
+
+        Destroy(gameObject);
+
+        _gameLevel.UnitHasReachedTheEnd();
     }
 }

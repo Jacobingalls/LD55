@@ -23,10 +23,8 @@ public class Summon : MonoBehaviour
     [SerializeField] private Targetable _targetable;
 
 
-    //[HideInInspector]
-    //public LevelManager LevelManager;
     [HideInInspector]
-    public GameLevel GameLevel;
+    public LevelManager LevelManager;
 
     public string Name
     {
@@ -58,10 +56,10 @@ public class Summon : MonoBehaviour
     void Awake()
     {
         _pubSubSender = GetComponent<PubSubSender>();
-        if (GameLevel == null)
+        if (LevelManager == null)
         {
             // PANIK, try to find one
-            GameLevel = GameObject.FindObjectOfType<GameLevel>();
+            LevelManager = GameObject.FindObjectOfType<LevelManager>();
         }
 
         var abilitiesGO = new GameObject("Abilities");
@@ -72,6 +70,14 @@ public class Summon : MonoBehaviour
             abilityGO.transform.parent = abilitiesGO.transform;
             _abilities.Add(abilityGO.GetComponent<SummonAbility>());
         }
+    }
+
+    private GameLevel _myLevel;
+
+    private void Start()
+    {
+        _myLevel = LevelManager.ActiveLevel;
+        _myLevel.RegisterSummon(this);
     }
 
 
@@ -113,18 +119,18 @@ public class Summon : MonoBehaviour
 
     Targetable TargetForUnit(SummonAbility ability)
     {
-        if (GameLevel.Units.Count == 0)
+        if (_myLevel.Units.Count == 0)
         {
             return null;
         }
 
         Targetable newTarget = null;
-        var bestUnit = GameLevel.Units.First();
+        var bestUnit = _myLevel.Units.First();
         switch (_targetPriority)
         {
             case TargetPriority.Closest:
                 var bestUnitDistance = Vector3.Distance(transform.position, bestUnit.transform.position);
-                foreach(var candidateUnit in GameLevel.Units)
+                foreach(var candidateUnit in _myLevel.Units)
                 {
                     var candidateUnitDistance = Vector3.Distance(transform.position, candidateUnit.transform.position);
                     if (candidateUnitDistance < bestUnitDistance)
@@ -174,7 +180,7 @@ public class Summon : MonoBehaviour
             originPosition = _abilityOriginTransform.position,
             source = this,
             target = TargetForAbility(ability),
-            world = GameLevel
+            level = _myLevel
         };
 
         return context;

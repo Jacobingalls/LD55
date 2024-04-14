@@ -5,9 +5,10 @@ using UnityEngine;
 public enum DamageType
 {
     Piercing,
-    Crushing,
-    Fire,
-    Lightning,
+    Ink,
+    Electricity,
+    Explosive,
+    Legal
 }
 
 public interface IDamageSource
