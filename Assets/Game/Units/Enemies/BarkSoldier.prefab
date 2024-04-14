@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6188354866183713077}
   - component: {fileID: 7716167938397195112}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: Artwork
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,7 +97,8 @@ GameObject:
   - component: {fileID: 8803722516490841046}
   - component: {fileID: 1632023605448678755}
   - component: {fileID: 2771325547162665008}
-  m_Layer: 0
+  - component: {fileID: 402989607282571526}
+  m_Layer: 30
   m_Name: BarkSoldier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,7 +135,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Definition: {fileID: 11400000, guid: 89de460392a944c93a40ea28bc19c4d8, type: 2}
   World: {fileID: 0}
+  DeathShader: {fileID: 2100000, guid: 76d0a75579b8763468f721f25bdbcff6, type: 2}
   _health: 0
+  DeathAnimationTime: 0.5
+  PlayDeathAnimation: 1
 --- !u!114 &8803722516490841046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,9 +299,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01d388367bba6e445b987950be48954d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rb: {fileID: 0}
-  _size: 10
-  _speed: 10
+  Type: 0
+--- !u!58 &402989607282571526
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4242559653279700501}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.35
 --- !u!1 &7201960369396757598
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,7 +346,7 @@ GameObject:
   - component: {fileID: 2993503717360978694}
   - component: {fileID: 4332416977472942800}
   - component: {fileID: 9480084512047599}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

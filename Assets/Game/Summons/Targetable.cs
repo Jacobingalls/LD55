@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Targetable : MonoBehaviour, IExplode
+public class Targetable : MonoBehaviour
 {
     public enum TargetType
     {
@@ -11,5 +11,5 @@ public class Targetable : MonoBehaviour, IExplode
         Location
     }
 
-    public void Explode() => Destroy(gameObject);
+    public TargetType Type;
 }

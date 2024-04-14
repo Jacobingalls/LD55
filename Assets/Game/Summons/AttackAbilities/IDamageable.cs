@@ -18,5 +18,5 @@ public interface IDamageSource
 
 public interface IDamageable
 {
-    void Damage();
+    void Damage(IDamageSource damageSource);
 }

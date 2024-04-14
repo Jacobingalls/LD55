@@ -36,8 +36,8 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
+  - Unit
+  - Projectile
   m_SortingLayers:
   - name: Background
     uniqueID: 4056297215

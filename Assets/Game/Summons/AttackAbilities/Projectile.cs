@@ -6,36 +6,40 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Projectile : MonoBehaviour, IDamageSource
 {
-    [Header("DAMAGE")]
+    [Header("Damage")]
     [Range(0, 50)]
-    private int _baseDamage = 10;
-    private DamageType _damageType = DamageType.Piercing;
+    [SerializeField] private int _baseDamage = 1;
+    [SerializeField] private DamageType _damageType = DamageType.Piercing;
+    [SerializeField] private bool _targetedAttack = true; // If true, will only destroy itself on collision with target
 
-    [Header("SPLASH")]
-    private bool _dealsSplashDamage = false;
+    [Header("Splash")]
+    [SerializeField] private bool _dealsSplashDamage = false;
     [Range(0.0f, 5.0f)]
-    private float _splashRadius = 0.0f;
-    private AnimationCurve _splashDamageFalloff;
+    [SerializeField] private float _splashRadius = 0.0f;
+    [SerializeField] private AnimationCurve _splashDamageFalloff;
 
-    [Header("REFERENCES")]
+    [Header("References")]
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private Targetable _target;
     [SerializeField] private GameObject _explosionPrefab;
     private World _world;
 
-    [Header("MOVEMENT")]
+    [Header("Movement")]
     [SerializeField] private float _speed = 15;
     [SerializeField] private float _rotateSpeed = 95;
 
-    [Header("PREDICTION")]
+    [Header("Prediction")]
     [SerializeField] private float _maxDistancePredict = 100;
     [SerializeField] private float _minDistancePredict = 5;
     [SerializeField] private float _maxTimePrediction = 5;
     private Vector3 _standardPrediction, _deviatedPrediction, _previousTargetPosition;
 
-    [Header("DEVIATION")]
+    [Header("Deviation")]
     [SerializeField] private float _deviationAmount = 50;
     [SerializeField] private float _deviationSpeed = 2;
+
+    // Lifespan
+    private float _remainingTargetlessLife = 5.0f;
 
     void FindTarget()
     {
@@ -60,11 +64,21 @@ public class Projectile : MonoBehaviour, IDamageSource
         _previousTargetPosition = _target.transform.position;
     }
 
+    public void SetTarget(Targetable target)
+    {
+        _target = target;
+        _previousTargetPosition = _target.transform.position;
+    }
+
     private void FixedUpdate()
     {
-        FindTarget();
         if (_target == null)
         {
+            _remainingTargetlessLife -= Time.fixedDeltaTime;
+            if (_remainingTargetlessLife < 0.0f)
+            {
+                Destroy(gameObject);
+            }
             return;
         }
 
@@ -107,10 +121,18 @@ public class Projectile : MonoBehaviour, IDamageSource
         _rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, _rotateSpeed * Time.deltaTime));
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (_targetedAttack)
+        {
+            if (_target != null && collision.gameObject != _target.gameObject)
+            {
+                return;
+            }
+        }
+
         if (_explosionPrefab) Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
-        if (collision.transform.TryGetComponent<IExplode>(out var ex)) ex.Explode();
+        if (collision.transform.TryGetComponent<IDamageable>(out var d)) d.Damage(damageSource: this);
 
         Destroy(gameObject);
     }
@@ -121,6 +143,7 @@ public class Projectile : MonoBehaviour, IDamageSource
         {
             return;
         }
+
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, _target.transform.position);
         Gizmos.color = Color.green;

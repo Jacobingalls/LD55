@@ -99,7 +99,6 @@ public class WaveManager : MonoBehaviour
                     if (candidateUnitConfig.UnitsLeftToSpawn > 0 )
                     {
                         _activeUnitConfigIndex = currentIndex;
-                        Debug.Log("Returning for index " + _activeUnitConfigIndex);
                         return candidateUnitConfig;
                     }
 
@@ -113,7 +112,6 @@ public class WaveManager : MonoBehaviour
                     }
                 }
 
-                Debug.Log("Returning null");
                 return null;
             }
 

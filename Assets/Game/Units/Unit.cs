@@ -6,10 +6,11 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 [RequireComponent(typeof(PubSubSender))]
-public class Unit : MonoBehaviour
+public class Unit : MonoBehaviour, IDamageable
 {
     public UnitDefinition Definition;
     public World World;
+    public Material DeathShader;
 
     public float MoveSpeed
     {
@@ -135,5 +136,76 @@ public class Unit : MonoBehaviour
 
         moving = false;
         transform.position = nextPosition;
+    }
+
+    public void Damage(IDamageSource damageSource)
+    {
+        Health -= damageSource.GetDamageAmount();
+
+        if (Health <= 0)
+        {
+            Kill();
+        }
+    }
+
+    void PlayDeathAudio()
+    {
+        //AudioManager.Instance.Play("SFX/GenericDeath",
+        //    pitchMin: 0.9f, pitchMax: 1.1f,
+        //    volumeMin: 1.0f, volumeMax: 1.0f,
+        //    position: transform.position,
+        //    minDistance: 10, maxDistance: 20);
+    }
+
+    void PlayHurtAudio()
+    {
+        //AudioManager.Instance.Play("SFX/GenericHurt",
+        //    pitchMin: 0.9f, pitchMax: 1.1f,
+        //    volumeMin: 0.7f, volumeMax: 0.7f,
+        //    position: transform.position,
+        //    minDistance: 10, maxDistance: 20);
+    }
+
+    public void Kill()
+    {
+        Health = 0;
+
+        GetComponent<PubSubSender>().Publish("unit.slain");
+
+        StartCoroutine(DeathCoroutine());
+    }
+
+    [Range(0.0f, 5.0f)]
+    public float DeathAnimationTime = 0.5f;
+
+    public bool PlayDeathAnimation = true;
+
+    private IEnumerator DeathCoroutine()
+    {
+        PlayDeathAudio();
+
+        if (PlayDeathAnimation == false)
+        {
+            _pubSubSender.Publish("entity.died", this);
+            Destroy(gameObject);
+            yield break;
+        }
+
+        var spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+
+        foreach (var sr in spriteRenderers)
+        {
+            //var dissolveEffect = sr.gameObject.AddComponent<DissolveEffect>();
+            //dissolveEffect.DissolveMaterial = DeathShader;
+            //dissolveEffect.DissolveAmount = 0;
+            //dissolveEffect.Duration = DeathAnimationTime;
+            //dissolveEffect.IsDissolving = true;
+        }
+
+        yield return new WaitForSeconds(DeathAnimationTime);
+
+        _pubSubSender.Publish("unit.died", this);
+
+        Destroy(gameObject);
     }
 }
