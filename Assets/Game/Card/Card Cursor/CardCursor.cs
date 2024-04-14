@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
 
+    public int order = 0;
+
     public float handScale = 1.0f;
     public Vector3 handPosition;
     public float handHoverScale = 1.0f;
@@ -22,6 +24,9 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     Vector3 originalPlacementIndicatorScale;
     public Color placementGoodColor, placementBadColor;
 
+    public GameObject cardFront;
+    public GameObject cardBack;
+
     Vector3 targetPosition;
     Vector3 targetScale;
     Quaternion targetRotation = Quaternion.Euler(0, 0, 0);
@@ -30,6 +35,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     float rotationLerp = 10f;
 
     GridManager gridManager;
+    CameraControls cameraControls;
 
     [Range(0f, 1f)]
     public float progress;
@@ -55,6 +61,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         targetScale = gameObject.transform.localScale;
 
         gridManager = GameObject.FindFirstObjectByType<GridManager>();
+        cameraControls = GameObject.FindFirstObjectByType<CameraControls>();
     }
 
     // Update is called once per frame
@@ -81,6 +88,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
             if (isHovered) {
                 targetPosition = handPosition + handHoverOffset;
                 targetScale = new Vector3(handHoverScale, handHoverScale, handHoverScale);
+                gameObject.transform.SetAsLastSibling();
             } else {
                 targetPosition = handPosition;
                 targetScale = new Vector3(handScale, handScale, handScale);
@@ -91,6 +99,10 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         
         gameObject.transform.localScale = Vector3.Lerp(gameObject.transform.localScale, targetScale, scaleLerp * Time.deltaTime);
         gameObject.transform.localRotation = Quaternion.Lerp(gameObject.transform.localRotation, targetRotation, rotationLerp * Time.deltaTime);
+
+        bool showFront = Vector3.Dot(gameObject.transform.forward, Camera.main.transform.forward) > 0;
+        cardFront.SetActive(true);
+        cardBack.SetActive(!showFront);
 
         float cardScale = Mathf.Max(cardProgressCurve.Evaluate(progress), 0.0001f);
         card.transform.localScale = new Vector3(cardScale, cardScale, cardScale);
@@ -124,11 +136,17 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (eventData.button == PointerEventData.InputButton.Right) { isSelected = false; context = null; return; }
+        if (eventData.button != PointerEventData.InputButton.Left) { return; }
         isSelected = true;
+
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (eventData.button == PointerEventData.InputButton.Right) { isSelected = false; context = null; return; }
+        if (eventData.button != PointerEventData.InputButton.Left) { return; }
+
         isSelected = false;
 
         // Check if we were dropped.
@@ -141,7 +159,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        isHovered = true;
+        isHovered = !cameraControls.CameraIsPanning; // Don't hover when moving the cursor due to panning.
     }
 
     public void OnPointerExit(PointerEventData eventData)

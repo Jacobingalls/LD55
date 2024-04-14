@@ -15,6 +15,7 @@ public class Deck : MonoBehaviour
     public GameObject cardCursorPrefab;
     Hand hand;
 
+    int cardNumber = 0;
     float timeUntilNextSpawn = 0f;
     float minTimeBetweenSpawns = 0.1f;
     public int numberOfCardsWantingToBeSpawned = 0;
@@ -71,6 +72,8 @@ public class Deck : MonoBehaviour
 
         CardCursor card = o.GetComponent<CardCursor>();
         if(card != null) {
+            card.order = cardNumber;
+            cardNumber += 1;
             card.card.actionDefinition = topCard;
             card.card.deck = this;
         }

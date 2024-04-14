@@ -21,7 +21,7 @@ public class Hand : MonoBehaviour
     void Update()
     {
         CardCursor[] cards = gameObject.GetComponentsInChildren<CardCursor>();
-        cards = cards.Where(c => !c.isSelected && c.context == null).ToArray();
+        cards = cards.Where(c => !c.isSelected && c.context == null).OrderBy(c => c.order).ToArray();
         if (cards.Length == 0) { return; }
 
         float cardSize = unhoveredScale * fullWidthSize;

@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3559ebedf158d4bdeb0e8fe2a8898e27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  order: 0
   handScale: 0.6
   handPosition: {x: 0, y: 0, z: 0}
   handHoverScale: 1
@@ -147,6 +148,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   placementGoodColor: {r: 1, g: 1, b: 1, a: 0.62352943}
   placementBadColor: {r: 1, g: 0.009691365, b: 0, a: 1}
+  cardFront: {fileID: 969690694149083742}
+  cardBack: {fileID: 8092927941012597929}
   progress: 0
   isSelected: 0
   isHovered: 0
@@ -254,7 +257,7 @@ RectTransform:
   m_GameObject: {fileID: 8346077104454081581}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5187863713716753968}
