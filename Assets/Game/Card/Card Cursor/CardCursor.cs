@@ -78,6 +78,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
             if (context?.clicksToGrid == true) {
                 pos = (context?.target?.WorldPosition) ?? Vector3.zero;
                 pos = Camera.main.WorldToScreenPoint(pos);
+                pos += new Vector3(0, 10f, 0); // Seems to want a slight poke up to align.
                 gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, pos, 2 * positionLerp * Time.deltaTime);
             } else {
                 gameObject.transform.position = pos; // Don't lerp if we aren't clicking to grid
@@ -110,8 +111,14 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         float cardAlpha = Mathf.Clamp01(cardProgressCurve.Evaluate(progress));
         cardCanvasGroup.alpha = cardAlpha;
 
+        
+        
+
+        // Hack needed to get the image to scale with camera.
+        float xCameraScale = (Camera.main.ViewportToWorldPoint(new Vector3(1f, 0f, 0)) - Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0))).x;
+        xCameraScale = 20f / xCameraScale;
         float placementIndicatorScale = Mathf.Max(placementIndicatorCurve.Evaluate(progress), 0.0001f);
-        placementIndicator.transform.localScale = Vector3.Scale(originalPlacementIndicatorScale, new Vector3(placementIndicatorScale, placementIndicatorScale, placementIndicatorScale));
+        placementIndicator.transform.localScale = Vector3.Scale(new Vector3(xCameraScale, xCameraScale, xCameraScale), Vector3.Scale(originalPlacementIndicatorScale, new Vector3(placementIndicatorScale, placementIndicatorScale, placementIndicatorScale)));
 
         float placementIndicatorAlpha = Mathf.Clamp01(placementIndicatorCurve.Evaluate(progress));
         Color color = placementBadColor;
