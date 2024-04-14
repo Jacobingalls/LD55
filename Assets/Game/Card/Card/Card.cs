@@ -36,7 +36,7 @@ public struct CardExecutionContext
                 if (ignoreExistingEntities) {
                     return walkable || summonable;
                 } else {
-                    return summonable;
+                    return summonable && empty;
                 }
             case CardActionTarget.GameState:
                 return true;
@@ -67,6 +67,18 @@ public struct CardExecutionContext
                 return c.summonable;
             }
             return false;
+        }
+    }
+
+    public bool empty
+    {
+        get
+        {
+            if (target is TileData d)
+            {
+                return !gridManager.HasSummon(d.Position);
+            }
+            return true;
         }
     }
 
