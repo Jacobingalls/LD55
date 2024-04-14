@@ -135,9 +135,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Definition: {fileID: 11400000, guid: 89de460392a944c93a40ea28bc19c4d8, type: 2}
-  HealthBar: {fileID: 5175456161045814931}
   DeathShader: {fileID: 2100000, guid: 76d0a75579b8763468f721f25bdbcff6, type: 2}
   SuccessShader: {fileID: 2100000, guid: 4a43f3b2efde4ce4d821ddf400aea512, type: 2}
+  DamageShader: {fileID: 2100000, guid: ecfee93c1146e6e41a8e22523cfcc501, type: 2}
+  DamageAnimationPingPongTime: 0.25
+  NumberOfPingPongs: 2
+  PlayDamageAnimation: 1
   DeathAnimationTime: 0.5
   PlayDeathAnimation: 1
   SuccessAnimationTime: 0.25
@@ -550,14 +553,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6452353286191754056, guid: c614f3546fe405044907d79eeed41f03, type: 3}
   m_PrefabInstance: {fileID: 8486788070884590871}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5175456161045814931 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3609011936825924484, guid: c614f3546fe405044907d79eeed41f03, type: 3}
-  m_PrefabInstance: {fileID: 8486788070884590871}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c6af69b2556c474abac3548c66a1bc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

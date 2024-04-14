@@ -15,9 +15,18 @@ public class Unit : MonoBehaviour, IDamageable
     public UnitDefinition Definition;
 
     [Header("Visuals")]
-    private SpriteProgressBar _healthBar;
     public Material DeathShader;
     public Material SuccessShader;
+    public Material DamageShader;
+    private SpriteProgressBar _healthBar;
+
+    [Range(0.0f, 5.0f)]
+    public float DamageAnimationPingPongTime = 0.25f;
+    [Range(1, 5)]
+    public int NumberOfPingPongs = 2;
+    private bool _isBeingDamaged = false;
+
+    public bool PlayDamageAnimation = true;
 
     [Range(0.0f, 5.0f)]
     public float DeathAnimationTime = 0.5f;
@@ -207,6 +216,46 @@ public class Unit : MonoBehaviour, IDamageable
         {
             Kill();
         }
+        else
+        {
+            StartCoroutine(DamageCoroutine());
+        }
+    }
+
+    private IEnumerator DamageCoroutine()
+    {
+        if (_isBeingDamaged)
+        {
+            yield break;
+        }
+
+        _isBeingDamaged = true;
+
+        if (!PlayDamageAnimation)
+        {
+            yield break;
+        }
+
+        var spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+
+        foreach (var sr in spriteRenderers)
+        {
+            var dissolveEffect = sr.gameObject.AddComponent<DamageEffect>();
+            dissolveEffect.DamageMaterial = DamageShader;
+            dissolveEffect.DamageAmount = 0;
+            dissolveEffect.SinglePingPongDuration = DamageAnimationPingPongTime;
+            dissolveEffect.IsDamaging = true;
+            dissolveEffect.PingPongCount = NumberOfPingPongs;
+        }
+
+        yield return new WaitForSeconds(DeathAnimationTime);
+
+        foreach (var sr in spriteRenderers)
+        {
+            Destroy(sr.gameObject.GetComponent<DissolveEffect>());
+        }
+
+        _isBeingDamaged = false;
     }
 
     void PlayDeathAudio()

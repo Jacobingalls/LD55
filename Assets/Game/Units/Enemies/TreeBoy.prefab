@@ -137,6 +137,10 @@ MonoBehaviour:
   Definition: {fileID: 11400000, guid: e6b5302a6fb0bbe479c8b53174659fd4, type: 2}
   DeathShader: {fileID: 2100000, guid: 76d0a75579b8763468f721f25bdbcff6, type: 2}
   SuccessShader: {fileID: 2100000, guid: 4a43f3b2efde4ce4d821ddf400aea512, type: 2}
+  DamageShader: {fileID: 2100000, guid: ecfee93c1146e6e41a8e22523cfcc501, type: 2}
+  DamageAnimationPingPongTime: 0.25
+  NumberOfPingPongs: 2
+  PlayDamageAnimation: 1
   DeathAnimationTime: 0.5
   PlayDeathAnimation: 1
   SuccessAnimationTime: 0.25

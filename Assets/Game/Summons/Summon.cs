@@ -20,7 +20,6 @@ public class Summon : MonoBehaviour
 
     [Header("Info")]
     public SummonDefinition Definition;
-    [SerializeField] private Targetable _targetable;
 
 
     [HideInInspector]

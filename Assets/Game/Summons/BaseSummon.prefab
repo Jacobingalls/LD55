@@ -61,12 +61,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Definition: {fileID: 11400000, guid: dd67ab466b31f34499d78081f6c711f2, type: 2}
-  _targetable: {fileID: 8738135684264045398}
-  World: {fileID: 0}
+  LevelManager: {fileID: 0}
   _range: 5
   _targetPriority: 1
   _abilityPrefabs:
-  - {fileID: 910441736817006832, guid: 60f7c84fc29fa4d44a0df3d5bc45d546, type: 3}
+  - {fileID: 910441736817006832, guid: 35e3745804d13f045a1836f56f07cf3e, type: 3}
   _cooldownBetweenAbilities: 0
   _abilityOriginTransform: {fileID: 415817270198721534}
 --- !u!114 &8738135684264045398

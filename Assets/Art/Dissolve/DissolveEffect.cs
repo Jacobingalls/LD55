@@ -14,6 +14,7 @@ public class DissolveEffect : MonoBehaviour
     public float DissolveAmount;
 
     public bool IsDissolving;
+    public bool PingPong;
 
     public DissolveComplete CompletionHandler;
 
@@ -21,11 +22,19 @@ public class DissolveEffect : MonoBehaviour
 
     private float _t;
 
+    private Material _cachedMaterial;
+
     // Start is called before the first frame update
     void Start()
     {
         _sr = GetComponent<SpriteRenderer>();
+        _cachedMaterial = _sr.material;
         _sr.material = DissolveMaterial;
+    }
+
+    private void OnDestroy()
+    {
+        _sr.material = _cachedMaterial;
     }
 
     // Update is called once per frame
@@ -35,7 +44,17 @@ public class DissolveEffect : MonoBehaviour
         {
             _t += Time.deltaTime;
             float pct = _t / Duration;
-            _sr.material.SetFloat("_DissolveAmount", pct);
+            float dissolveAmount = pct;
+
+            if (PingPong)
+            {
+                if (pct > 0.5f)
+                {
+                    dissolveAmount = 1.0f - pct;
+                }
+            }
+
+            _sr.material.SetFloat("_DissolveAmount", dissolveAmount);
 
             if (pct > 1.0f)
             {
