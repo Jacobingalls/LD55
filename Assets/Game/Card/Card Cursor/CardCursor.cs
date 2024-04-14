@@ -34,7 +34,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     float scaleLerp = 10f;
     float rotationLerp = 10f;
 
-    GridManager gridManager;
+    LevelManager levelManager;
     CameraControls cameraControls;
 
     [Range(0f, 1f)]
@@ -60,7 +60,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         targetPosition = gameObject.transform.localPosition;
         targetScale = gameObject.transform.localScale;
 
-        gridManager = GameObject.FindFirstObjectByType<GridManager>();
+        levelManager = GameObject.FindFirstObjectByType<LevelManager>();
         cameraControls = GameObject.FindFirstObjectByType<CameraControls>();
     }
 
@@ -132,7 +132,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = 10f;
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
-        CardExecutionContext context = new CardExecutionContext(card.actionDefinition, gridManager, worldPosition);
+        CardExecutionContext context = new CardExecutionContext(card.actionDefinition, levelManager.ActiveLevel.GridManager, worldPosition);
         if (context.ValidPlacementIgnoringExistingEntities(true)) {
             this.context = context;
         } else {
