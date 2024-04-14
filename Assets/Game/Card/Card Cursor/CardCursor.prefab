@@ -134,7 +134,7 @@ MonoBehaviour:
   handScale: 0.5
   handPosition: {x: 0, y: 0, z: 0}
   handHoverScale: 1
-  handHoverOffset: {x: 0, y: 0.8, z: -1}
+  handHoverOffset: {x: 0, y: 20, z: -1}
   card: {fileID: 7658057590932994120}
   cardProgressCurve:
     serializedVersion: 2
@@ -185,8 +185,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  placementGoodColor: {r: 1, g: 1, b: 1, a: 0}
-  placementBadColor: {r: 1, g: 0.009691365, b: 0, a: 0}
+  placementGoodColor: {r: 1, g: 1, b: 1, a: 0.62352943}
+  placementBadColor: {r: 1, g: 0.009691365, b: 0, a: 1}
   placementImage: {fileID: 5592430338308436216}
   progress: 0
   isSelected: 0

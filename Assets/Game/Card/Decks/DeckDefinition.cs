@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Linq;
+using System;
 
 [CreateAssetMenu(fileName = "DeckDefinition", menuName = "Card/Deck", order = 1)]
 public class DeckDefinition : ScriptableObject
@@ -25,7 +26,7 @@ public class DeckDefinition : ScriptableObject
             }
 
             // Shuffle deck :)
-            return cards.OrderBy( _ => Random.Range(0, 1)).ToList();
+            return cards.OrderBy( _ => Guid.NewGuid()).ToList();
         }
     }
 }

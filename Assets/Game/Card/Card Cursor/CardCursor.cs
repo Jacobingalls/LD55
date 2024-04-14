@@ -9,7 +9,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     public float handScale = 1.0f;
     public Vector3 handPosition;
     public float handHoverScale = 1.0f;
-    public Vector3 handHoverOffset = new Vector3(0, 0.8f, -1f);
+    public Vector3 handHoverOffset = new Vector3(0, 20f, -1f);
 
     public Card card;
     CanvasGroup cardCanvasGroup;
@@ -93,7 +93,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         float placementIndicatorAlpha = Mathf.Clamp01(placementIndicatorCurve.Evaluate(progress));
         Color color = placementBadColor;
         if (context is CardExecutionContext con && con.Validate()){ color = placementGoodColor; }
-        color.a = placementIndicatorAlpha;
+        color.a *= placementIndicatorAlpha;
         placementIndicatorSpriteRenderer.color = color;
     }
 

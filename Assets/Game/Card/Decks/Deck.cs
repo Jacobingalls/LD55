@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using info.jacobingalls.jamkit;
 using System.Linq;
+using System;
 
-public class Deck : MonoBehaviour, IPointerDownHandler
+public class Deck : MonoBehaviour
 {
 
     public DeckDefinition deckDefinition;
@@ -16,7 +17,7 @@ public class Deck : MonoBehaviour, IPointerDownHandler
 
     float timeUntilNextSpawn = 0f;
     float minTimeBetweenSpawns = 0.1f;
-    int numberOfCardsWantingToBeSpawned = 0;
+    public int numberOfCardsWantingToBeSpawned = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -35,11 +36,6 @@ public class Deck : MonoBehaviour, IPointerDownHandler
             SpawnCard();
             timeUntilNextSpawn = minTimeBetweenSpawns;
         }
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        DrawCard();
     }
 
     public void DrawCard()
@@ -61,7 +57,7 @@ public class Deck : MonoBehaviour, IPointerDownHandler
     {
         if (cardsInDeck.Count <= 0 && cardsInDiscard.Count > 0)
         {
-            cardsInDeck = cardsInDiscard.OrderBy(_ => Random.Range(0, 1)).ToList();
+            cardsInDeck = cardsInDiscard.OrderBy(_ => Guid.NewGuid()).ToList();
             cardsInDiscard = new List<CardActionDefinition>();
         }
 
