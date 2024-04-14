@@ -14,10 +14,7 @@ public enum CardActionKind
 public enum CardActionTarget
 {
     None,
-    Walkable,
-    Entity,
-    AllyEntity,
-    EnemyEntity,
+    EmptyBuildableArea,
     GameState
 }
 

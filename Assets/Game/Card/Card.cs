@@ -9,7 +9,10 @@ public struct CardExecutionContext
 {
     public CardActionDefinition actionDefinition;
     public GridManager gridManager;
+
+    public Vector3 position;
     public TileData? target;
+    public TileConfig? tileConfig;
 
     public override string ToString() => $"<ExecutionContext: action={actionDefinition.Name}, target={target}>";
 
@@ -17,9 +20,54 @@ public struct CardExecutionContext
     {
         this.actionDefinition = actionDefinition;
         this.gridManager = gridManager;
+        this.position = point;
 
         Vector2Int coord = gridManager.ToWorldPositionTileCoordinate(point);
         this.target = gridManager.GetTileData(coord);
+        this.tileConfig = gridManager.GetTileConfig(coord);
+    }
+
+    // ignoreExistingEntities is to that we can use one function to decide if this is a buildable area, but already occupied.
+    public bool ValidPlacementIgnoringExistingEntities(bool ignoreExistingEntities)
+    {
+        switch (actionDefinition.Target)
+        {
+            case CardActionTarget.EmptyBuildableArea:
+                if (ignoreExistingEntities) {
+                    return walkable || summonable;
+                } else {
+                    return summonable;
+                }
+            case CardActionTarget.GameState:
+                return true;
+            default:
+                return false;
+        }
+        return false;
+    }
+
+    public bool walkable
+    {
+        get
+        {
+            if (tileConfig is TileConfig c)
+            {
+                return c.walkable;
+            }
+            return false;
+        }
+    }
+
+    public bool summonable
+    {
+        get
+        {
+            if (tileConfig is TileConfig c)
+            {
+                return c.summonable;
+            }
+            return false;
+        }
     }
 
     public bool Validate()
@@ -43,6 +91,7 @@ public struct CardExecutionContext
 public class Card : MonoBehaviour
 {
     public CardActionDefinition actionDefinition;
+    public Deck deck;
 
     public TextMeshProUGUI title;
     public TextMeshProUGUI description;
@@ -65,5 +114,10 @@ public class Card : MonoBehaviour
     public void Execute(CardExecutionContext context)
     {
         context.Execute();
+    }
+
+    public void ReturnToDeck()
+    {
+        deck.AddCardToDiscard(actionDefinition);
     }
 }

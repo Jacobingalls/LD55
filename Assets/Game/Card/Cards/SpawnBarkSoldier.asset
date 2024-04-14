@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea49d42127d36483194aa11cd8138b9b, type: 3}
-  m_Name: DrawTwoCards
+  m_Name: SpawnBarkSoldier
   m_EditorClassIdentifier: 
-  Name: Draw Two Cards
-  Description: Draw Two Cards...
-  FlavorText: '"Draw Two Cards"'
-  Icon: {fileID: 21300000, guid: 30e4397a245cf4f1883bcf3428602b4b, type: 3}
-  Color: {r: 0.6226415, g: 0.18503025, b: 0.19578925, a: 1}
-  Kind: 3
-  Target: 2
+  Name: Spawn Bark Soldier
+  Description: Description of the action.
+  FlavorText: '"Flavor text for the action."'
+  Icon: {fileID: 21300000, guid: d594a1b4f787842748975cf1c4f4597e, type: 3}
+  Color: {r: 0, g: 0, b: 1, a: 1}
+  Kind: 1
+  Target: 1
   Behaviors:
-  - {fileID: -3010554025262517575, guid: 924a3c3d5d2414057a79d2a15aab6cec, type: 3}
+  - {fileID: 2219447825596931633, guid: c9426df8fa2a0444d9e1307b592886fb, type: 3}
   ActionPointCost: 1
   PurchaseCost: 0

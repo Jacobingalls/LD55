@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using info.jacobingalls.jamkit;
+using System.Linq;
 
 public class Deck : MonoBehaviour, IPointerDownHandler
 {
+
+    public DeckDefinition deckDefinition;
+    public List<CardActionDefinition> cardsInDeck, cardsInDiscard = new List<CardActionDefinition>();
 
     public GameObject cardCursorPrefab;
     Hand hand;
@@ -18,6 +22,7 @@ public class Deck : MonoBehaviour, IPointerDownHandler
     void Start()
     {
         hand = GameObject.FindFirstObjectByType<Hand>();
+        cardsInDeck = deckDefinition.Cards;
     }
 
     // Update is called once per frame
@@ -54,10 +59,31 @@ public class Deck : MonoBehaviour, IPointerDownHandler
 
     public GameObject SpawnCard()
     {
-        // TODO: Pick card to draw.
+        if (cardsInDeck.Count <= 0 && cardsInDiscard.Count > 0)
+        {
+            cardsInDeck = cardsInDiscard.OrderBy(_ => Random.Range(0, 1)).ToList();
+            cardsInDiscard = new List<CardActionDefinition>();
+        }
+
+        if (cardsInDeck.Count <= 0) { return null; }
+        CardActionDefinition topCard = cardsInDeck.First();
+        cardsInDeck.RemoveAt(0);
+
         GameObject o = GameObject.Instantiate<GameObject>(cardCursorPrefab, hand.gameObject.transform);
         o.transform.position = gameObject.transform.position; // Set world pos, but keep transform in hand so it gets animated to the right place.
         o.transform.rotation = Quaternion.Euler(0, -180, 0); // Spawn it upside down.
+
+        CardCursor card = o.GetComponent<CardCursor>();
+        if(card != null) {
+            card.card.actionDefinition = topCard;
+            card.card.deck = this;
+        }
+
         return o;
+    }
+
+    public void AddCardToDiscard(CardActionDefinition card)
+    {
+        cardsInDiscard.Add(card);
     }
 }

@@ -22,14 +22,12 @@ public struct TileData
     public List<Waypoint> Waypoints;
     public GridManager GridManager;
 
-    public bool IsEmpty()
+    public Vector3 WorldPosition
     {
-        return true;
-    }
-
-    public bool IsWalkable()
-    {
-        return false;
+        get
+        {
+            return GridManager.TileCoordinateToWorldPosition(Position);
+        }
     }
 }
 
@@ -113,7 +111,7 @@ public class GridManager : MonoBehaviour
 
     public void UpdateTileData(TileData newTileData)
     {
-        if (newTileData.IsEmpty())
+        if (true /* newTileData.IsEmpty() */) // Was stubbed true before, not sure how to fix.
         {
             if (_tileData.ContainsKey(newTileData.Position))
             {

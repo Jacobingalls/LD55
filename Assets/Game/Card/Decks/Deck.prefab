@@ -131,6 +131,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0354de6396d43468a9f90033d2267015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deckDefinition: {fileID: 11400000, guid: 8b52eebd470134c7dac01bcf5f115649, type: 2}
+  cardsInDeck: []
+  cardsInDiscard: []
   cardCursorPrefab: {fileID: 7301435264426337974, guid: c821b1a027cf04cca9da56e7d32023ed, type: 3}
 --- !u!61 &8223012533622860704
 BoxCollider2D:

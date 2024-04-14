@@ -19,6 +19,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     SpriteRenderer placementIndicatorSpriteRenderer;
     public AnimationCurve placementIndicatorCurve;
     Vector3 originalPlacementIndicatorScale;
+    public Color placementGoodColor, placementBadColor;
 
     Vector3 targetPosition;
     Vector3 targetScale;
@@ -88,7 +89,10 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         placementIndicator.transform.localScale = Vector3.Scale(originalPlacementIndicatorScale, new Vector3(placementIndicatorScale, placementIndicatorScale, placementIndicatorScale));
 
         float placementIndicatorAlpha = Mathf.Clamp01(placementIndicatorCurve.Evaluate(progress));
-        placementIndicatorSpriteRenderer.color = new Color(placementIndicatorSpriteRenderer.color.r, placementIndicatorSpriteRenderer.color.g, placementIndicatorSpriteRenderer.color.b, placementIndicatorAlpha);
+        Color color = placementBadColor;
+        if (context is CardExecutionContext con && con.Validate()){ color = placementGoodColor; }
+        color.a = placementIndicatorAlpha;
+        placementIndicatorSpriteRenderer.color = color;
     }
 
     void MoveWithCursor()
@@ -99,7 +103,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         gameObject.transform.position = worldPosition;
 
         CardExecutionContext context = new CardExecutionContext(card.actionDefinition, gridManager, gameObject.transform.position);
-        if (context.Validate())
+        if (context.ValidPlacementIgnoringExistingEntities(true))
         {
             this.context = context;
             return;
@@ -136,9 +140,13 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public void PlayOnCardDrop()
     {
-        if (context != null) {
+        if (context != null && context?.Validate() == true) {
             context?.Execute();
-            GameObject.Destroy(gameObject); // We are all done!
+            card.ReturnToDeck();
+            GameObject.Destroy(gameObject);
+        } else
+        {
+            context = null;
         }
     }
 }
