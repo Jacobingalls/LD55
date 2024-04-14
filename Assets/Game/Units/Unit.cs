@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 public class Unit : MonoBehaviour
 {
     public UnitDefinition Definition;
-    public GridManager GridManager;
+    public World World;
 
     public float MoveSpeed
     {
@@ -57,13 +57,20 @@ public class Unit : MonoBehaviour
     void Awake()
     {
         _pubSubSender = GetComponent<PubSubSender>();
-        if (GridManager == null)
+        if (World == null)
         {
             // PANIK, try to find one
-            GridManager = GameObject.FindObjectOfType<GridManager>();
+            World = GameObject.FindObjectOfType<World>();
         }
 
         Health = MaxHealth;
+
+        World.RegisterUnit(this);
+    }
+
+    private void OnDestroy()
+    {
+        World.UnregisterUnit(this);
     }
 
     // Update is called once per frame
@@ -94,11 +101,11 @@ public class Unit : MonoBehaviour
         Vector2Int startNode = path.First();
         path.RemoveAt(0);
 
-        Vector3 startPosition = GridManager.TileCoordinateToWorldPosition(startNode);
+        Vector3 startPosition = World.GridManager.TileCoordinateToWorldPosition(startNode);
 
         startNode = path.First();
         path.RemoveAt(0);
-        Vector3 nextPosition = GridManager.TileCoordinateToWorldPosition(startNode);
+        Vector3 nextPosition = World.GridManager.TileCoordinateToWorldPosition(startNode);
 
         var t = 0.0f;
         var speed = MoveSpeed; // meters per second
@@ -118,7 +125,7 @@ public class Unit : MonoBehaviour
                 {
                     t = 0.0f;
                     startPosition = nextPosition;
-                    nextPosition = GridManager.TileCoordinateToWorldPosition(path.First());
+                    nextPosition = World.GridManager.TileCoordinateToWorldPosition(path.First());
                     path.RemoveAt(0);
                 }
             }
