@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using info.jacobingalls.jamkit;
 
+[RequireComponent(typeof(PubSubSender))]
 public class LevelManager : MonoBehaviour
 {
     private List<GameLevel> _levels = new();
@@ -37,6 +39,12 @@ public class LevelManager : MonoBehaviour
 
     public void StartNextLevel()
     {
+        if (_currentLevelIndex == _levels.Count - 1)
+        {
+            var sender = GetComponent<PubSubSender>();
+            sender.Publish("gameManager.showWin");
+        }
+
         ActivateLevel(_currentLevelIndex + 1);
     }
 

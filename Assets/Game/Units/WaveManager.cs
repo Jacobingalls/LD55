@@ -9,6 +9,7 @@ using static WaveManager.Wave;
 using info.jacobingalls.jamkit;
 
 [RequireComponent(typeof(PubSubSender))]
+[RequireComponent(typeof(PubSubListener))]
 public class WaveManager : MonoBehaviour
 {
     [System.Serializable]
@@ -217,6 +218,8 @@ public class WaveManager : MonoBehaviour
 
     private List<WavePath> _wavePaths = new();
 
+    private PubSubListenerUnityEvent _waveRequestEvent;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -245,7 +248,6 @@ public class WaveManager : MonoBehaviour
 
     private int _currentWaveIndex = -1;
     private bool _waveIsActive = false;
-    private bool _initializingWave = false;
     private GameObject _currentWaveUnits = null;
 
     public void StartNextWave()
@@ -274,6 +276,11 @@ public class WaveManager : MonoBehaviour
         _waveIsActive = false;
 
         GetComponent<PubSubSender>().Publish("wave.completed", this);
+    }
+
+    public bool AllWavesCompleted()
+    {
+        return _currentWaveIndex == Waves.Count - 1 && _waveIsActive == false;
     }
 
     private void LateUpdate()

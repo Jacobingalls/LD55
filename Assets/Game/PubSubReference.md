@@ -18,6 +18,7 @@ shop.wasRestocked
 
 level.changed <int>
 
+wave.request.next
 wave.started <WaveManager>
 wave.completed <WaveManager>
 

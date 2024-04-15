@@ -75,6 +75,12 @@ public class GameLevel : MonoBehaviour
             return;
         }
 
+        if (WaveManager.AllWavesCompleted())
+        {
+            LevelManager.StartNextLevel();
+            return;
+        }
+
         DrawPlayerHand();
     }
 
