@@ -58,4 +58,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActionCost: 1
-  SpawnGameObject: {fileID: 435494407398809340, guid: d0544efd18d8e4d76bc1f3b32cd2b8ab, type: 3}
+  SpawnGameObject: {fileID: 435494407398809340, guid: 0419cdaf384744380a4f4a234b44c046, type: 3}

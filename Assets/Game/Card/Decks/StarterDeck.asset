@@ -21,9 +21,3 @@ MonoBehaviour:
     Count: 3
   - Card: {fileID: 11400000, guid: 6172ce1a5b82cc046bb02c651be38654, type: 2}
     Count: 5
-  - Card: {fileID: 11400000, guid: 3e31fc911b79a48df9aa84bde5fe0bde, type: 2}
-    Count: 20
-  - Card: {fileID: 11400000, guid: fec40354c7b6f472dad85b43dc23be57, type: 2}
-    Count: 20
-  - Card: {fileID: 11400000, guid: 2481fb1c6cc0a4d43a583115aa501d50, type: 2}
-    Count: 20
