@@ -45,6 +45,7 @@ public class Hand : MonoBehaviour
         float scaleNeeded = Mathf.Min(1f, maxAllowedSpace / spaceNeeded);
         float usedSpace = spaceNeeded * scaleNeeded;
 
+        var manaCards = new List<CardCursor>();
         for (int i = 0; i < cards.Length; i++)
         {
 
@@ -54,6 +55,17 @@ public class Hand : MonoBehaviour
             CardCursor card = cards[i];
             card.handPosition = new Vector3(pos, 0, 0);
             card.handScale = unhoveredScale * scaleNeeded;
+
+            if (card.IsManaCard())
+            {
+                manaCards.Add(card);
+            }
+        }
+
+        foreach(var manaCard in manaCards)
+        {
+            manaCard.handPosition = new Vector3(-1000, 1000.0f, manaCard.transform.position.z);
+            manaCard.transform.parent = manaCard.transform.parent.parent;
         }
     }
 

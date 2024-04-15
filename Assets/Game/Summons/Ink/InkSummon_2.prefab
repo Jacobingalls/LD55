@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5956442967043111359}
   - component: {fileID: 8738135684264045398}
   m_Layer: 0
-  m_Name: TriShotSummon
+  m_Name: InkSummon_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,8 +61,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Definition: {fileID: 11400000, guid: dd67ab466b31f34499d78081f6c711f2, type: 2}
-  _targetable: {fileID: 8738135684264045398}
-  World: {fileID: 0}
+  LevelManager: {fileID: 0}
   _range: 5
   _targetPriority: 1
   _abilityPrefabs:
@@ -251,7 +250,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ca3cceacf804d614c89edf4ad30b77c2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ee711cdb990763e4c9bb81c7649d2a5e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

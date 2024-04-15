@@ -18,4 +18,6 @@ MonoBehaviour:
   - Card: {fileID: 11400000, guid: c4c414f2e6f194e4b9332de0178a61dc, type: 2}
     Count: 2
   - Card: {fileID: 11400000, guid: a930d43f7d67549c5ac77b8ddbb6f0ec, type: 2}
-    Count: 8
+    Count: 3
+  - Card: {fileID: 11400000, guid: 6172ce1a5b82cc046bb02c651be38654, type: 2}
+    Count: 5

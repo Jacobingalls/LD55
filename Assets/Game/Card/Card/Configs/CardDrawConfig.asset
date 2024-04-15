@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CardDrawConfig
   m_EditorClassIdentifier: 
   Type: 1
-  TypeIcon: {fileID: 21300000, guid: e9fc4b44c5ae44dcfbda83f09192729f, type: 3}
+  TypeIcon: {fileID: -1147883995, guid: 9580644ca0f8ca747a9c7498e2dc690f, type: 3}
   HeaderBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
   ContentBackgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   OutlineColor: {r: 0, g: 0, b: 0, a: 1}

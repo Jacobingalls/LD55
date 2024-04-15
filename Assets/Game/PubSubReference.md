@@ -9,6 +9,10 @@ hand.discard.all
 deck.draw.one
 deck.draw.number <int>
 
+resource.mana.changed <int>
+resource.actions.changed <int>
+resource.buys.changed <int>
+
 shop.open
 shop.close
 shop.restock
@@ -17,6 +21,8 @@ shop.wasClosed
 shop.wasRestocked
 
 level.changed <int>
+
+round.started <int>
 
 wave.request.next
 wave.started <WaveManager>

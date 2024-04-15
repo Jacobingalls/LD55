@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a173958d21274cc2875c8fe08113670, type: 3}
+  m_Name: CardPlay_Alt
+  m_EditorClassIdentifier: 
+  id: Card/Play
+  audioMixerGroup: {fileID: 4674431572857700961, guid: 6aaec4e9836b94287ba7f62ae8b8dc38, type: 2}
+  audioClips:
+  - {fileID: 8300000, guid: b09bc0b874993c94dbdce7999c9499f6, type: 3}
+  - {fileID: 8300000, guid: 16789a6856696d04bbe3d6ad61dce8c8, type: 3}
+  - {fileID: 8300000, guid: 92ffc1c10cd4ca14fab3b27b8b602b07, type: 3}

@@ -18,20 +18,10 @@ public class Summon : MonoBehaviour
         Vulnerable,
     }
 
-    [Header("Info")]
-    public SummonDefinition Definition;
-
-
     [HideInInspector]
     public LevelManager LevelManager;
 
-    public string Name
-    {
-        get
-        {
-            return Definition.Name;
-        }
-    }
+    public string Name = "Summon";
 
     [Header("Stats")]
     [Range(0.1f, 50.0f)]

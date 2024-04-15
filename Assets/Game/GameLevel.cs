@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
+using static Unity.Collections.Unicode;
 
 [RequireComponent(typeof(PubSubSender))]
 [RequireComponent(typeof(PubSubListener))]
@@ -49,6 +50,64 @@ public class GameLevel : MonoBehaviour
         }
     }
 
+    public int AvailableBuys
+    {
+        get
+        {
+            return Mathf.Max(_availableBuys, 0);
+        }
+        set
+        {
+            if (_availableBuys == value)
+            {
+                return;
+            }
+
+            _availableBuys = value;
+            GetComponent<PubSubSender>().Publish("resource.buys.changed", _availableBuys);
+        }
+    }
+    private int _availableBuys = -1;
+
+    public int AvailableMana
+    {
+        get
+        {
+            return Mathf.Max(_availableMana, 0);
+        }
+        set
+        {
+            if (_availableMana == value)
+            {
+                return;
+            }
+
+            _availableMana = value;
+            GetComponent<PubSubSender>().Publish("resource.mana.changed", _availableMana);
+        }
+    }
+    private int _availableMana = -1;
+
+    public int AvailableActions
+    {
+        get
+        {
+            return Mathf.Max(_availableActions, 0);
+        }
+        set
+        {
+            if (_availableActions == value)
+            {
+                return;
+            }
+
+            _availableActions = value;
+            GetComponent<PubSubSender>().Publish("resource.actions.changed", _availableActions);
+        }
+    }
+    private int _startingActions = 2;
+    private int _availableActions = -1;
+
     public void Awake()
     {
         _summonsParent = new GameObject("Summons");
@@ -57,6 +116,23 @@ public class GameLevel : MonoBehaviour
 
     public void Start()
     {
+        InitializeRound();
+    }
+
+    public void InitializeRound()
+    {
+        AvailableMana = 0;
+        AvailableBuys = 1;
+        AvailableActions = _startingActions;
+
+        var round = WaveManager.CurrentWave + 1;
+        if (WaveManager.CurrentWaveCompleted())
+        {
+            round += 1;
+        }
+
+        GetComponent<PubSubSender>().Publish("round.started", round);
+
         DrawPlayerHand();
     }
 
@@ -81,7 +157,7 @@ public class GameLevel : MonoBehaviour
             return;
         }
 
-        DrawPlayerHand();
+        InitializeRound();
     }
 
     public void RegisterLevelManager(LevelManager levelManager)

@@ -97,17 +97,26 @@ public struct CardExecutionContext
     public bool Validate()
     {
         var self = this;
-        return actionDefinition.Behaviors.TrueForAll(b => b.CanExecute(self));
+        return actionDefinition.Behaviors.TrueForAll(b => b.CanExecute(self)) && CanAfford();
+    }
+
+    public bool CanAfford()
+    {
+        var self = this;
+        return actionDefinition.Behaviors.TrueForAll(b => b.CanAfford(self));
     }
 
     public void Execute()
     {
-        if (Validate())
+        if (!Validate())
         {
-            foreach (var behavior in actionDefinition.Behaviors)
-            {
-                behavior.Execute(this);
-            }
+            return;
+        }
+
+        foreach (var behavior in actionDefinition.Behaviors)
+        {
+            behavior.PayCost(this);
+            behavior.Execute(this);
         }
     }
 
@@ -155,6 +164,11 @@ public class Card : MonoBehaviour
     public bool Validate(CardExecutionContext context)
     {
         return context.Validate();
+    }
+
+    public bool CanAfford(CardExecutionContext context)
+    {
+        return context.CanAfford();
     }
 
     public void Execute(CardExecutionContext context)

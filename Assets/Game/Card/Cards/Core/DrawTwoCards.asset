@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea49d42127d36483194aa11cd8138b9b, type: 3}
   m_Name: DrawTwoCards
   m_EditorClassIdentifier: 
-  Name: Draw Two Cards
-  Description: Draw Two Cards...
-  FlavorText: '"Draw Two Cards"'
-  Icon: {fileID: 21300000, guid: 30e4397a245cf4f1883bcf3428602b4b, type: 3}
+  Name: Scry
+  Description: '<sprite name="action>: Draw two cards.'
+  FlavorText: 
+  Icon: {fileID: 21300000, guid: 09b6a7dcfc9a64945a3f3d5c87fc07c9, type: 3}
   PlacementIcon: {fileID: 21300000, guid: c7caaaf209bae472dae37cfe8b444f24, type: 3}
   Color: {r: 0.6226415, g: 0.18503025, b: 0.19578925, a: 1}
   Kind: 3
   Target: 2
-  Type: 0
+  Type: 1
   Behaviors:
   - {fileID: -3010554025262517575, guid: 924a3c3d5d2414057a79d2a15aab6cec, type: 3}
   CardsConfig: {fileID: 11400000, guid: cb30482471d483948ae3290c6a1ab6d9, type: 2}

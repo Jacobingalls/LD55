@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class CardForSale : MonoBehaviour
 {
@@ -21,9 +22,16 @@ public class CardForSale : MonoBehaviour
     public TextMeshProUGUI specialLabel;
     public TextMeshProUGUI availableLabel;
 
+    public GameObject manaCostIcon;
+    public GameObject manaCostIconContainer;
+    public TextMeshProUGUI manaCostLabel;
+
+    private LevelManager _levelManger;
+
     // Start is called before the first frame update
     void Start()
     {
+        _levelManger = FindObjectOfType<LevelManager>();
         card.actionDefinition = cardActionDefinition;
         UpdateUI();
     }
@@ -36,24 +44,76 @@ public class CardForSale : MonoBehaviour
 
     public void UpdateUI()
     {
-        buyButton.interactable = CanBuy();
-        buyButtonLabel.text = CostString();
+        var evaluatedPurchase = EvaluatePurchase();
+        buyButton.interactable = evaluatedPurchase.canBuy;
+        buyButtonLabel.text = evaluatedPurchase.rejectionReason ?? "Buy";
 
         availableLabel.gameObject.SetActive(available != 1);
         availableLabel.text = available + " available";
         specialLabel.gameObject.SetActive(isSpecial);
         buyAnnotationsView.SetActive(isSpecial || available != 1);
+
+        var cost = card.actionDefinition.PurchaseCost;
+        if (cost == 0)
+        {
+            manaCostIcon.SetActive(false);
+            manaCostIconContainer.SetActive(false);
+        }
+        else
+        {
+            manaCostIcon.SetActive(true);
+            manaCostIconContainer.SetActive(true);
+            manaCostLabel.text = $"{cost}";
+        }
     }
 
-    public string CostString()
+    public struct EvaluatedPurchaseDecision
     {
-        return "Free";
+        public bool canBuy;
+        public string rejectionReason;
     }
 
-    public bool CanBuy()
+    public EvaluatedPurchaseDecision EvaluatePurchase()
     {
-        if (shop == null) { return false; }
-        return shop.CanBuy(cardActionDefinition, isSpecial);
+        if (shop == null) {
+            return new EvaluatedPurchaseDecision()
+            {
+                canBuy = false,
+                rejectionReason = "ERROR"
+            };
+        }
+        if (!shop.CanBuy(cardActionDefinition, isSpecial))
+        {
+            return new EvaluatedPurchaseDecision()
+            {
+                canBuy = false,
+                rejectionReason = "Out of Stock"
+            };
+        }
+        var playerBuyActions = _levelManger.ActiveLevel.AvailableBuys;
+        if (playerBuyActions == 0)
+        {
+            return new EvaluatedPurchaseDecision()
+            {
+                canBuy = false,
+                rejectionReason = "No Buys Left"
+            };
+        }
+
+        var playerMana = _levelManger.ActiveLevel.AvailableMana;
+        if (playerMana < card.actionDefinition.PurchaseCost)
+        {
+            return new EvaluatedPurchaseDecision()
+            {
+                canBuy = false,
+                rejectionReason = "Can't Afford"
+            };
+        }
+
+        return new EvaluatedPurchaseDecision()
+        {
+            canBuy = true,
+        };
     }
 
     public void Buy()

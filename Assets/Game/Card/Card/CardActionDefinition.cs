@@ -29,7 +29,6 @@ public class CardActionDefinition : ScriptableObject
 
     public Sprite Icon = null;
     public Sprite PlacementIcon = null;
-    public Color Color = Color.blue;
 
     public CardActionKind Kind = CardActionKind.Other;
     public CardActionTarget Target = CardActionTarget.None;

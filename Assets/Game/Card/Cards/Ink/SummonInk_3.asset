@@ -10,19 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea49d42127d36483194aa11cd8138b9b, type: 3}
-  m_Name: SummonPurpleBoix
+  m_Name: SummonInk_3
   m_EditorClassIdentifier: 
-  Name: Arcane Tower
-  Description: Description of the action.
-  FlavorText: '"Flavor text for the action."'
-  Icon: {fileID: 21300000, guid: ca3cceacf804d614c89edf4ad30b77c2, type: 3}
-  PlacementIcon: {fileID: 21300000, guid: ca3cceacf804d614c89edf4ad30b77c2, type: 3}
+  Name: Tower of Ink III
+  Description: '<sprite name=action>: Summon turret that fires <color="red">5</color>
+    projectiles dealing <sprite name="damage_paper">.'
+  FlavorText: '"You and HP are working together, aren''t you!?"'
+  Icon: {fileID: 21300000, guid: 05596d64f4b8cbc48a03cdedeff25068, type: 3}
+  PlacementIcon: {fileID: 21300000, guid: 05596d64f4b8cbc48a03cdedeff25068, type: 3}
   Color: {r: 0.456182, g: 0, b: 1, a: 1}
   Kind: 1
   Target: 1
   Type: 6
   Behaviors:
-  - {fileID: -5267030843400808064, guid: 97bce05ef760f4a18a8836feb1f39b64, type: 3}
+  - {fileID: -5267030843400808064, guid: 61fa0b16309e6274fa3f0b16dca51a26, type: 3}
   CardsConfig: {fileID: 11400000, guid: cb30482471d483948ae3290c6a1ab6d9, type: 2}
   ActionPointCost: 1
-  PurchaseCost: 0
+  PurchaseCost: 3

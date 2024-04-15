@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b61fe0dbfa5394d78963b39ab333d15b, type: 3}
-  m_Name: SpecialRedDeck
+  m_Name: SpecialShopDeck
   m_EditorClassIdentifier: 
   Name: Special Red Deck
   CardBack: {fileID: 21300000, guid: 40df5b9759b2a8549ac7cfc13e332d17, type: 3}
   CardCounts:
+  - Card: {fileID: 11400000, guid: 73f2710a39c570045881b4ee912bd020, type: 2}
+    Count: 1
   - Card: {fileID: 11400000, guid: c4c414f2e6f194e4b9332de0178a61dc, type: 2}
-    Count: 4
-  - Card: {fileID: 11400000, guid: 73281e625691c421fad0b35e421e1bdf, type: 2}
-    Count: 2
-  - Card: {fileID: 11400000, guid: a930d43f7d67549c5ac77b8ddbb6f0ec, type: 2}
-    Count: 2
+    Count: 1
+  - Card: {fileID: 11400000, guid: 14ef8696c9404d44b897e64f5802dfb9, type: 2}
+    Count: 1

@@ -47,6 +47,18 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     [Range(1f, 5f)]
     public float speed = 1f; 
 
+    public bool IsManaCard()
+    {
+        foreach (var behavior in card.actionDefinition.Behaviors)
+        {
+            if (behavior.IsManaCard())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -97,7 +109,6 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
             gameObject.transform.localPosition = Vector3.Lerp(gameObject.transform.localPosition, targetPosition, positionLerp * Time.deltaTime);
         }
 
-        
         gameObject.transform.localScale = Vector3.Lerp(gameObject.transform.localScale, targetScale, scaleLerp * Time.deltaTime);
         gameObject.transform.localRotation = Quaternion.Lerp(gameObject.transform.localRotation, targetRotation, rotationLerp * Time.deltaTime);
 
@@ -184,12 +195,32 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         minDistance: 10, maxDistance: 20);
     }
 
+    public void PlayInsufficentResourcesAudio()
+    {
+        AudioManager.Instance.Play("Card/CantPlayNoResources",
+        pitchMin: 0.8f, pitchMax: 1.2f,
+        volumeMin: 0.3f, volumeMax: 0.3f,
+        position: Camera.main.transform.position,
+        minDistance: 10, maxDistance: 20);
+    }
+
     public void PlayOnCardDrop()
     {
-        if (context != null && context?.Validate() == true) {
-            context?.Execute();
-            card.ReturnToDeck();
-            GameObject.Destroy(gameObject);
+        if (context != null) {
+            if (context?.Validate() == true)
+            {
+                context?.Execute();
+                card.ReturnToDeck();
+                GameObject.Destroy(gameObject);
+            }
+            else
+            {
+                if (context?.CanAfford() == false)
+                {
+                    PlayInsufficentResourcesAudio();
+                }
+                context = null;
+            }
         } else
         {
             context = null;

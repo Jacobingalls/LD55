@@ -218,8 +218,6 @@ public class WaveManager : MonoBehaviour
 
     private List<WavePath> _wavePaths = new();
 
-    private PubSubListenerUnityEvent _waveRequestEvent;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -250,6 +248,14 @@ public class WaveManager : MonoBehaviour
     private bool _waveIsActive = false;
     private GameObject _currentWaveUnits = null;
 
+    public int CurrentWave
+    {
+        get
+        {
+            return _currentWaveIndex;
+        }
+    }
+
     public void StartNextWave()
     {
         if (_currentWaveIndex == Waves.Count - 1 || _waveIsActive)
@@ -270,7 +276,12 @@ public class WaveManager : MonoBehaviour
         GetComponent<PubSubSender>().Publish("wave.started", this);
     }
 
-    private void WaveCompleted()
+    public bool CurrentWaveCompleted()
+    {
+        return !_waveIsActive;
+    }
+
+    private void SetWaveCompleted()
     {
         Debug.Log($"Wave {_currentWaveIndex} has ended.");
         _waveIsActive = false;
@@ -294,7 +305,7 @@ public class WaveManager : MonoBehaviour
 
         if (currentWave.HasFinishedSpawningSubwaves() && _waveIsActive && _currentWaveUnits.transform.childCount == 0)
         {
-            WaveCompleted();
+            SetWaveCompleted();
         }
     }
 
