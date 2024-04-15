@@ -9,6 +9,7 @@ public class SpriteProgressBar : MonoBehaviour
     [SerializeField] private SpriteRenderer _progressSprite;
 
     public bool HideOnZeroProgress = true;
+    public bool HideOnFullProgress = true;
 
     public float CurrentProgress
     {
@@ -27,7 +28,12 @@ public class SpriteProgressBar : MonoBehaviour
             CalculateProgressBar(_currentProgress);
         }
     }
-    private float _currentProgress;
+    private float _currentProgress = 1.0f;
+
+    private void Start()
+    {
+        CalculateProgressBar(_currentProgress);
+    }
 
     void CalculateProgressBar(float progress)
     {
@@ -37,7 +43,7 @@ public class SpriteProgressBar : MonoBehaviour
         _progressSprite.transform.localPosition = new Vector3(-xOffset, _progressSprite.transform.localPosition.y, _progressSprite.transform.localPosition.z);
         _progressSprite.transform.localScale = new Vector3(xScale, _progressSprite.transform.localScale.y, _progressSprite.transform.localScale.z);
 
-        if (HideOnZeroProgress && progress <= 0.0001f)
+        if (HideOnZeroProgress && progress <= 0.0001f || HideOnFullProgress && progress >= 0.9999f)
         {
             _backgroundSprite.gameObject.SetActive(false);
             _progressSprite.gameObject.SetActive(false);

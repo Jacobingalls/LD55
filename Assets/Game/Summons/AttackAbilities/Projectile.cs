@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour, IDamageSource
     [Header("Damage")]
     [Range(0, 50)]
     [SerializeField] private int _baseDamage = 1;
-    [SerializeField] private DamageType _damageType = DamageType.Piercing;
+    [SerializeField] private DamageType _damageType = DamageType.Ink;
     [SerializeField] private bool _targetedAttack = true; // If true, will only destroy itself on collision with target
 
     [Header("Splash")]

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum DamageType
 {
-    Piercing,
+    Dog,
     Ink,
     Electricity,
     Explosive,

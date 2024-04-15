@@ -6,13 +6,33 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+public enum UnitType
+{
+    Paper = 0,
+    Digital,
+    Courier,
+    Legal,
+    Vehicle
+}
+
 [RequireComponent(typeof(PubSubSender))]
 public class Unit : MonoBehaviour, IDamageable
 {
     delegate void MoveCompletionHandler();
 
     [Header("Info")]
-    public UnitDefinition Definition;
+    public string Name = "Unit";
+    public string Description = "Description of the unit.";
+    public string FlavorText = "\"Flavor text for the unit.\"";
+    public Sprite Icon;
+    public Color Color = Color.blue;
+    public UnitType Type;
+
+    [Range(1, 100)]
+    public int BaseMaxHealth = 10;
+
+    [Range(0.1f, 10.0f)]
+    public float BaseMoveSpeed = 5.0f;
 
     [Header("Visuals")]
     public Material DeathShader;
@@ -47,23 +67,7 @@ public class Unit : MonoBehaviour, IDamageable
     {
         get
         {
-            return Definition.MoveSpeed;
-        }
-    }
-
-    public string Name
-    {
-        get
-        {
-            return Definition.Name;
-        }
-    }
-
-    public string ClassName
-    {
-        get
-        {
-            return Definition.ClassName;
+            return BaseMoveSpeed;
         }
     }
 
@@ -90,7 +94,7 @@ public class Unit : MonoBehaviour, IDamageable
 
     private bool _invulnerable = false;
 
-    public int MaxHealth { get { return Definition.BaseMaxHealth; } }
+    public int MaxHealth { get { return BaseMaxHealth; } }
 
     private PubSubSender _pubSubSender;
 
@@ -148,7 +152,7 @@ public class Unit : MonoBehaviour, IDamageable
 
     private bool positionIsCloseEnoughToTarget(Vector3 destination)
     {
-        return Vector3.Distance(transform.position, destination) < 0.005f;
+        return Vector3.Distance(transform.position, destination) < 0.015f;
     }
 
     IEnumerator MoveAlongPath(List<Vector2Int> path, MoveCompletionHandler completionHandler)
@@ -194,19 +198,44 @@ public class Unit : MonoBehaviour, IDamageable
         completionHandler();
     }
 
+    public float DamageMultiplier(IDamageSource damageSource)
+    {
+        const float normalMultiplier = 1.0f;
+        const float weakMultiplier = 1.51f;
+        const float resistantMultiplier = 0.49f;
+
+        switch (damageSource.GetDamageType())
+        {
+            case DamageType.Electricity:
+                return Type == UnitType.Digital ? weakMultiplier : normalMultiplier;
+            case DamageType.Explosive:
+                return Type == UnitType.Vehicle ? weakMultiplier : normalMultiplier;
+            case DamageType.Ink:
+                return Type == UnitType.Paper ? weakMultiplier : normalMultiplier;
+            case DamageType.Legal:
+                return Type == UnitType.Legal ? weakMultiplier : normalMultiplier;
+            case DamageType.Dog:
+                return Type == UnitType.Courier ? weakMultiplier : normalMultiplier;
+            default:
+                return normalMultiplier;
+        }
+    }
+
     public void Damage(IDamageSource damageSource)
     {
-        if (_invulnerable)
+        if (_invulnerable || Health <= 0)
         {
             return;
         }
 
         var oldHealth = Health;
-        Health -= damageSource.GetDamageAmount();
+
+        var trueDamage = Mathf.RoundToInt(damageSource.GetDamageAmount() * DamageMultiplier(damageSource));
+
+        Health = Mathf.Max(Health - trueDamage, 0);
 
         if (_healthBar != null)
         {
-            Debug.Log("Health was " + oldHealth + " is now " + Health + ", progress is " + (float)Health / (float)MaxHealth);
             _healthBar.CurrentProgress = ((float)Health / (float)MaxHealth);
         }
 

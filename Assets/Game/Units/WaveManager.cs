@@ -238,6 +238,7 @@ public class WaveManager : MonoBehaviour
         if (_waveIsActive && _currentWaveUnits.transform.childCount == 0)
         {
             Debug.Log($"Wave {_currentWave} has ended.");
+            _waveIsActive = false;
         }
     }
 
