@@ -146,4 +146,13 @@ public class Card : MonoBehaviour
     {
         deck.AddCardToDiscard(actionDefinition);
     }
+
+    private CardConfig _cardConfig;
+    public void SetConfig(CardConfig cardConfig)
+    { 
+        if (_cardConfig == null)
+        {
+
+        }
+    }
 }

@@ -33,6 +33,7 @@ public class CardActionDefinition : ScriptableObject
 
     public CardActionKind Kind = CardActionKind.Other;
     public CardActionTarget Target = CardActionTarget.None;
+    public CardType Type = CardType.Generic;
     public List<CardActionBehavior> Behaviors;
 
     [Range(0, 5)]

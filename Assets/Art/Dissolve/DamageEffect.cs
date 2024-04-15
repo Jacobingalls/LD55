@@ -35,6 +35,7 @@ public class DamageEffect : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (_sr != null)
         _sr.material = _cachedMaterial;
     }
 

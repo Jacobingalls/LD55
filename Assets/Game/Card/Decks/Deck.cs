@@ -8,7 +8,6 @@ using System;
 
 public class Deck : MonoBehaviour
 {
-
     public DeckDefinition deckDefinition;
     public List<CardActionDefinition> cardsInDeck, cardsInDiscard = new List<CardActionDefinition>();
 

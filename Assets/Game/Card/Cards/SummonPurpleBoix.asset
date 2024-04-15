@@ -20,6 +20,7 @@ MonoBehaviour:
   Color: {r: 0.456182, g: 0, b: 1, a: 1}
   Kind: 1
   Target: 1
+  Type: 6
   Behaviors:
   - {fileID: -5267030843400808064, guid: 97bce05ef760f4a18a8836feb1f39b64, type: 3}
   ActionPointCost: 1
