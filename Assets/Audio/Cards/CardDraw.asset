@@ -15,6 +15,4 @@ MonoBehaviour:
   id: Card/Draw
   audioMixerGroup: {fileID: 4674431572857700961, guid: 6aaec4e9836b94287ba7f62ae8b8dc38, type: 2}
   audioClips:
-  - {fileID: 8300000, guid: 30fbbac4932775641bf159f4618d513e, type: 3}
-  - {fileID: 8300000, guid: a28c53ddacae4984e922dabd91162c5a, type: 3}
-  - {fileID: 8300000, guid: 384cfd527165fdf4487df4aa06d4349f, type: 3}
+  - {fileID: 8300000, guid: 3454cf7d00fa441189e7b29dd7409e48, type: 3}

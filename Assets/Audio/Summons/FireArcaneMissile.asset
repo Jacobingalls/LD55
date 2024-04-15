@@ -15,4 +15,6 @@ MonoBehaviour:
   id: Summons/FireArcaneMissile
   audioMixerGroup: {fileID: 4674431572857700961, guid: 6aaec4e9836b94287ba7f62ae8b8dc38, type: 2}
   audioClips:
-  - {fileID: 8300000, guid: 462ee08388ff10f42bc118238c4d62ed, type: 3}
+  - {fileID: 8300000, guid: ed3a65522b86f49da8210c294c4dd53b, type: 3}
+  - {fileID: 8300000, guid: fe23f9f32744544caa6e25bc64009440, type: 3}
+  - {fileID: 8300000, guid: d71fa1932dc964ce9815d7d0e072c835, type: 3}
