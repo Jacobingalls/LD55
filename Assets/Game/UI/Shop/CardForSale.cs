@@ -119,6 +119,10 @@ public class CardForSale : MonoBehaviour
     public void Buy()
     {
         if (shop == null) { return;  }
+
         shop.Buy(cardActionDefinition, isSpecial);
+        Debug.Log("Buy cardActionDefinition.PurchaseCost " + cardActionDefinition.PurchaseCost);
+        _levelManger.ActiveLevel.AvailableMana -= cardActionDefinition.PurchaseCost;
+        _levelManger.ActiveLevel.AvailableBuys -= 1;
     }
 }

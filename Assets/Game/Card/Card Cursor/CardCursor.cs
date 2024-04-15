@@ -83,7 +83,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     private bool IsCloseEnough(Vector3 target)
     {
-        return Vector3.Distance(gameObject.transform.localPosition, target) < 10;
+        return Vector3.Distance(gameObject.transform.localPosition, target) < 10.0f;
     }
 
     // Update is called once per frame
@@ -120,8 +120,13 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
             if (IsCloseEnough(targetPosition) && executeOnceHandPositionReached)
             {
-                this.context = new CardExecutionContext(card.actionDefinition, levelManager, levelManager.ActiveLevel, levelManager.ActiveLevel.GridManager, Vector3.zero);
-                PlayOnCardDrop();
+                context = new CardExecutionContext(card.actionDefinition,
+                    levelManager,
+                    levelManager.ActiveLevel,
+                    levelManager.ActiveLevel.GridManager,
+                    Vector3.zero);
+                executeOnceHandPositionReached = false;
+                PlayOnCardDrop(forced: true);
             }
         }
 
@@ -220,11 +225,15 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         minDistance: 10, maxDistance: 20);
     }
 
-    public void PlayOnCardDrop()
+    public void PlayOnCardDrop(bool forced = false)
     {
+        Debug.Log("PlayOnCardDrop " + this);
         if (context != null) {
-            if (context?.Validate() == true)
+            if (forced || context?.Validate() == true)
             {
+                Debug.Log("Execute " + this);
+                Debug.Log(context?.actionDefinition);
+                Debug.Log(context?.target);
                 context?.Execute();
                 card.ReturnToDeck();
                 GameObject.Destroy(gameObject);

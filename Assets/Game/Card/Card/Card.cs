@@ -195,8 +195,6 @@ public class Card : MonoBehaviour
 
         _cardConfig = config;
 
-        Debug.Log("Set config " + config);
-
         title.color = config.HeaderTextColor;
         description.color = config.DescriptionTextColor;
         flavorText.color = config.DescriptionTextColor;

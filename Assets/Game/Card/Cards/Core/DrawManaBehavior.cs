@@ -17,6 +17,7 @@ public class DrawManaBehavior : CardActionBehavior
 
     public override void Execute(CardExecutionContext context)
     {
-        Debug.Log("+1 mana!");
+        Debug.Log("Add that mana");
+        context.activeLevel.AvailableMana += 1;
     }
 }

@@ -38,7 +38,7 @@ public class GameMenubar : MonoBehaviour
     public void UpdateIconList(GameObject parentGO, GameObject iconPrefab, int iconQuantity)
     {
         // Destroy existing icons if needed
-        for (var i = iconQuantity; i < parentGO.transform.childCount; i++)
+        for (var i = parentGO.transform.childCount - 1; i >= 0; i--)
         {
             var existingChild = parentGO.transform.GetChild(i);
             existingChild.SetParent(null);

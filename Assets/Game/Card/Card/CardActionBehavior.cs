@@ -14,12 +14,12 @@ public class CardActionBehavior : MonoBehaviour
         return false;
     }
 
-    public bool CanAfford(CardExecutionContext context)
+    public virtual bool CanAfford(CardExecutionContext context)
     {
         return ActionCost <= FindObjectOfType<LevelManager>().ActiveLevel.AvailableActions;
     }
 
-    public void PayCost(CardExecutionContext context)
+    public virtual void PayCost(CardExecutionContext context)
     {
         FindObjectOfType<LevelManager>().ActiveLevel.AvailableActions -= ActionCost;
     }
