@@ -8,4 +8,5 @@ public class TileConfig : ScriptableObject
 
     public bool summonable;
     public bool walkable;
+    public bool looksPlaceableButIsOccupied = false;
 }

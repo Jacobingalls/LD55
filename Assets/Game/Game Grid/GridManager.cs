@@ -53,8 +53,8 @@ public class GridManager : MonoBehaviour
 
     public PubSubSender PubSubSender;
 
-    [SerializeField]
-    private List<TileConfig> tileConfigs;
+    [SerializeField] private List<TileConfig> tileConfigs;
+    [SerializeField] private TileConfig defaultTileConfig;
 
     private Dictionary<TileBase, TileConfig> _dataFromTiles;
 
@@ -81,11 +81,18 @@ public class GridManager : MonoBehaviour
         var tile = Walkable.GetTile((Vector3Int)position);
         if (tile != null)
         {
-            return _dataFromTiles[tile];
+            if (_dataFromTiles.ContainsKey(tile))
+            {
+                return _dataFromTiles[tile];
+            }
+            else
+            {
+                return defaultTileConfig;
+            }
         }
         else
         {
-            return null;
+            return defaultTileConfig;
         }
     }
 

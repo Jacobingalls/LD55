@@ -34,7 +34,7 @@ public struct CardExecutionContext
         {
             case CardActionTarget.EmptyBuildableArea:
                 if (ignoreExistingEntities) {
-                    return walkable || summonable;
+                    return walkable || summonable || looksPlaceableButIsOccupied;
                 } else {
                     return summonable && empty;
                 }
@@ -65,6 +65,18 @@ public struct CardExecutionContext
             if (tileConfig is TileConfig c)
             {
                 return c.summonable;
+            }
+            return false;
+        }
+    }
+
+    public bool looksPlaceableButIsOccupied
+    {
+        get
+        {
+            if (tileConfig is TileConfig c)
+            {
+                return c.looksPlaceableButIsOccupied;
             }
             return false;
         }
