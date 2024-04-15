@@ -65,7 +65,7 @@ MonoBehaviour:
   _range: 5
   _targetPriority: 1
   _abilityPrefabs:
-  - {fileID: 910441736817006832, guid: 60f7c84fc29fa4d44a0df3d5bc45d546, type: 3}
+  - {fileID: 910441736817006832, guid: 37ba3a7dee76348958a24040f6d058be, type: 3}
   _cooldownBetweenAbilities: 0
   _abilityOriginTransform: {fileID: 415817270198721534}
 --- !u!114 &8738135684264045398
