@@ -124,12 +124,20 @@ public class Card : MonoBehaviour
     public TextMeshProUGUI flavorText;
     public Image image;
 
+    public Image typeIcon;
+
+    public Image headerSectionBackground;
+    public Image imageSectionBackground;
+    public Image descriptionSectionBackground;
+
     public void Start()
     {
         title.text = actionDefinition.Name;
         description.text = actionDefinition.Description;
         flavorText.text = actionDefinition.FlavorText;
         image.sprite = actionDefinition.Icon;
+
+        SetConfig(actionDefinition.CardsConfig.GetConfigForCardType(actionDefinition.Type));
     }
 
     public bool Validate(CardExecutionContext context)
@@ -148,11 +156,25 @@ public class Card : MonoBehaviour
     }
 
     private CardConfig _cardConfig;
-    public void SetConfig(CardConfig cardConfig)
+    public void SetConfig(CardConfig config)
     { 
-        if (_cardConfig == null)
+        if (_cardConfig == config)
         {
-
+            return;
         }
+
+        _cardConfig = config;
+
+        Debug.Log("Set config " + config);
+
+        title.color = config.HeaderTextColor;
+        description.color = config.DescriptionTextColor;
+        flavorText.color = config.DescriptionTextColor;
+
+        typeIcon.sprite = config.TypeIcon;
+
+        headerSectionBackground.color = config.HeaderBackgroundColor;
+        imageSectionBackground.color = config.ContentBackgroundColor;
+        descriptionSectionBackground.color = config.ContentBackgroundColor;
     }
 }

@@ -12,8 +12,6 @@ public class DeckDefinition : ScriptableObject
     public Sprite CardBack = null;
     public CardCount[] CardCounts;
 
-    public List<CardConfig> CardConfigs;
-
     public List<CardActionDefinition> Cards
     {
         get
@@ -30,17 +28,6 @@ public class DeckDefinition : ScriptableObject
             // Shuffle deck :)
             return cards.OrderBy( _ => Guid.NewGuid()).ToList();
         }
-    }
-    public CardConfig GetConfigForCardType(CardType type)
-    {
-        foreach (var config in CardConfigs)
-        {
-            if (config.Type == type)
-            {
-                return config;
-            }
-        }
-        return null;
     }
 }
 

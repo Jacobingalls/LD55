@@ -23,5 +23,6 @@ MonoBehaviour:
   Type: 7
   Behaviors:
   - {fileID: 2219447825596931633, guid: c9426df8fa2a0444d9e1307b592886fb, type: 3}
+  CardsConfig: {fileID: 11400000, guid: cb30482471d483948ae3290c6a1ab6d9, type: 2}
   ActionPointCost: 4
   PurchaseCost: 7

@@ -35,6 +35,7 @@ public class CardActionDefinition : ScriptableObject
     public CardActionTarget Target = CardActionTarget.None;
     public CardType Type = CardType.Generic;
     public List<CardActionBehavior> Behaviors;
+    public CardsConfig CardsConfig;
 
     [Range(0, 5)]
     public int ActionPointCost = 1;

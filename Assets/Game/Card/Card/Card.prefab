@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 2902701984633747033}
   - component: {fileID: 2572896121962125368}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: Description Section
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1528,6 +1528,10 @@ MonoBehaviour:
   description: {fileID: 8663667500202549926}
   flavorText: {fileID: 3301359055500889390}
   image: {fileID: 6221159125286799890}
+  typeIcon: {fileID: 2568087121127607186}
+  headerSectionBackground: {fileID: 2196783494190834883}
+  imageSectionBackground: {fileID: 793359007776984331}
+  descriptionSectionBackground: {fileID: 2572896121962125368}
 --- !u!1 &8464640762695778049
 GameObject:
   m_ObjectHideFlags: 0
