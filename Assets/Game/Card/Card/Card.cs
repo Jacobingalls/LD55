@@ -18,10 +18,12 @@ public struct CardExecutionContext
 
     public override string ToString() => $"<ExecutionContext: action={actionDefinition.Name}, target={target}>";
 
-    public CardExecutionContext(CardActionDefinition actionDefinition, LevelManager levelManager, GameLevel gamelevel, GridManager gridManager, Vector3 point)
+    public CardExecutionContext(CardActionDefinition actionDefinition, LevelManager levelManager, GameLevel activeLevel, GridManager gridManager, Vector3 point)
     {
         this.actionDefinition = actionDefinition;
         this.gridManager = gridManager;
+        this.levelManager = levelManager;
+        this.activeLevel = activeLevel;
         this.position = point;
 
         Vector2Int coord = gridManager.ToWorldPositionTileCoordinate(point);

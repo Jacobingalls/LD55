@@ -120,7 +120,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
             if (IsCloseEnough(targetPosition) && executeOnceHandPositionReached)
             {
-                this.context = new CardExecutionContext(card.actionDefinition, levelManager.ActiveLevel.GridManager, Vector3.zero);
+                this.context = new CardExecutionContext(card.actionDefinition, levelManager, levelManager.ActiveLevel, levelManager.ActiveLevel.GridManager, Vector3.zero);
                 PlayOnCardDrop();
             }
         }
@@ -159,7 +159,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         Vector3 mousePos = Input.mousePosition;
         mousePos.z = 10f;
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
-        CardExecutionContext context = new CardExecutionContext(card.actionDefinition, levelManager.ActiveLevel.GridManager, worldPosition);
+        CardExecutionContext context = new CardExecutionContext(card.actionDefinition, levelManager, levelManager.ActiveLevel, levelManager.ActiveLevel.GridManager, worldPosition);
         if (context.ValidPlacementIgnoringExistingEntities(true)) {
             this.context = context;
         } else {
