@@ -23,3 +23,4 @@ wave.started <WaveManager>
 wave.completed <WaveManager>
 
 unit.reached.goal
+unit.slain

@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class LD55GameManager : MonoBehaviour
 {
+
+    public int enemiesKilled = 0;
+    public int wavesCompleted = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +18,21 @@ public class LD55GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void ResetScore()
+    {
+        enemiesKilled = 0;
+        wavesCompleted = 0;
+    }
+
+    public void EnemyKilled()
+    {
+        enemiesKilled += 1;
+    }
+
+    public void WaveCompleted()
+    {
+        wavesCompleted += 1;
     }
 }
