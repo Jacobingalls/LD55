@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using info.jacobingalls.jamkit;
 
+[RequireComponent(typeof(PubSubSender))]
 public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 {
 
@@ -11,6 +13,9 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public float handScale = 1.0f;
     public Vector3 handPosition;
+    public bool executeOnceHandPositionReached;
+
+
     public float handHoverScale = 1.0f;
     public Vector3 handHoverOffset = new Vector3(0, 20f, -1f);
 
@@ -76,6 +81,11 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         cameraControls = GameObject.FindFirstObjectByType<CameraControls>();
     }
 
+    private bool IsCloseEnough(Vector3 target)
+    {
+        return Vector3.Distance(gameObject.transform.localPosition, target) < 10;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -107,6 +117,12 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
                 targetScale = new Vector3(handScale, handScale, handScale);
             }
             gameObject.transform.localPosition = Vector3.Lerp(gameObject.transform.localPosition, targetPosition, positionLerp * Time.deltaTime);
+
+            if (IsCloseEnough(targetPosition) && executeOnceHandPositionReached)
+            {
+                this.context = new CardExecutionContext(card.actionDefinition, levelManager.ActiveLevel.GridManager, Vector3.zero);
+                PlayOnCardDrop();
+            }
         }
 
         gameObject.transform.localScale = Vector3.Lerp(gameObject.transform.localScale, targetScale, scaleLerp * Time.deltaTime);

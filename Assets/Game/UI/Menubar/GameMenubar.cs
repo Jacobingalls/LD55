@@ -41,7 +41,7 @@ public class GameMenubar : MonoBehaviour
         for (var i = iconQuantity; i < parentGO.transform.childCount; i++)
         {
             var existingChild = parentGO.transform.GetChild(i);
-            existingChild.transform.parent = null;
+            existingChild.SetParent(null);
             Destroy(existingChild.gameObject);
         }
 

@@ -8,6 +8,8 @@ using System.Linq;
 public struct CardExecutionContext
 {
     public CardActionDefinition actionDefinition;
+    public LevelManager levelManager;
+    public GameLevel activeLevel;
     public GridManager gridManager;
 
     public Vector3 position;
@@ -16,7 +18,7 @@ public struct CardExecutionContext
 
     public override string ToString() => $"<ExecutionContext: action={actionDefinition.Name}, target={target}>";
 
-    public CardExecutionContext(CardActionDefinition actionDefinition, GridManager gridManager, Vector3 point)
+    public CardExecutionContext(CardActionDefinition actionDefinition, LevelManager levelManager, GameLevel gamelevel, GridManager gridManager, Vector3 point)
     {
         this.actionDefinition = actionDefinition;
         this.gridManager = gridManager;

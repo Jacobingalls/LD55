@@ -65,6 +65,7 @@ public class Hand : MonoBehaviour
         foreach(var manaCard in manaCards)
         {
             manaCard.handPosition = new Vector3(-1000, 1000.0f, manaCard.transform.position.z);
+            manaCard.executeOnceHandPositionReached = true;
             manaCard.transform.parent = manaCard.transform.parent.parent;
         }
     }
