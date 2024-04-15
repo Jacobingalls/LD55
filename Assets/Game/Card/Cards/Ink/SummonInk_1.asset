@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea49d42127d36483194aa11cd8138b9b, type: 3}
   m_Name: SummonInk_1
   m_EditorClassIdentifier: 
-  Name: Tower of Ink
+  Name: Home Printer
   Description: '<sprite name=action>: Summon turret that fires <color="red">1</color>
     projectile dealing <sprite name="damage_paper">.'
   FlavorText: '"Oh dear, it appears these letters are covered in ink. Into the bin!"'
   Icon: {fileID: 21300000, guid: a8f2ba0dce3634c4182e9014f38bbb05, type: 3}
   PlacementIcon: {fileID: 21300000, guid: a8f2ba0dce3634c4182e9014f38bbb05, type: 3}
-  Color: {r: 0.456182, g: 0, b: 1, a: 1}
   Kind: 1
   Target: 1
   Type: 6

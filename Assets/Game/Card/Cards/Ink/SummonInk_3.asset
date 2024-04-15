@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea49d42127d36483194aa11cd8138b9b, type: 3}
   m_Name: SummonInk_3
   m_EditorClassIdentifier: 
-  Name: Tower of Ink III
+  Name: HP Printer
   Description: '<sprite name=action>: Summon turret that fires <color="red">5</color>
     projectiles dealing <sprite name="damage_paper">.'
   FlavorText: '"You and HP are working together, aren''t you!?"'
   Icon: {fileID: 21300000, guid: 05596d64f4b8cbc48a03cdedeff25068, type: 3}
   PlacementIcon: {fileID: 21300000, guid: 05596d64f4b8cbc48a03cdedeff25068, type: 3}
-  Color: {r: 0.456182, g: 0, b: 1, a: 1}
   Kind: 1
   Target: 1
   Type: 6

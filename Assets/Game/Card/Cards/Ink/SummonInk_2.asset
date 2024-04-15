@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea49d42127d36483194aa11cd8138b9b, type: 3}
   m_Name: SummonInk_2
   m_EditorClassIdentifier: 
-  Name: Tower of Ink II
+  Name: Office Printer
   Description: '<sprite name=action>: Summon turret that fires <color="red">3</color>
     projectiles dealing <sprite name="damage_paper">.'
   FlavorText: '"I''m gonna bill you for all this ink I''m wasting."'
   Icon: {fileID: 21300000, guid: ee711cdb990763e4c9bb81c7649d2a5e, type: 3}
   PlacementIcon: {fileID: 21300000, guid: ee711cdb990763e4c9bb81c7649d2a5e, type: 3}
-  Color: {r: 0.456182, g: 0, b: 1, a: 1}
   Kind: 1
   Target: 1
   Type: 6

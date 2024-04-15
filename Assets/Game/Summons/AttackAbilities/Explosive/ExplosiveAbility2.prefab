@@ -45,14 +45,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetType: 0
-  Cooldown: 0.7
+  Cooldown: 1.2
   ProjectilePrefabs:
   - {fileID: 6587467032967532180, guid: 35f566bc43a2943018e1fa9202f81305, type: 3}
   RandomProjectileHeading: 1
-  RandomAngleMin: -20
-  RandomAngleMax: 20
+  RandomAngleMin: -50
+  RandomAngleMax: 50
   SpawnJitter: 1
   JitterMin: {x: -0.1, y: -0.1, z: 0}
   JitterMax: {x: 0.1, y: 0.1, z: 0}
-  NumProjectilesInVolley: 1
+  NumProjectilesInVolley: 3
   TimeBetweenProjectilesInVolley: 0.2
