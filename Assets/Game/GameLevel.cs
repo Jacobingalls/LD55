@@ -2,6 +2,7 @@ using info.jacobingalls.jamkit;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -31,6 +32,7 @@ public class GameLevel : MonoBehaviour
     private List<Summon> _summons = new();
     private EndPortal _endPortal;
     public LevelManager LevelManager { get; private set; }
+    public WaveManager WaveManager { get; private set; }
 
     private GameObject _summonsParent;
 
@@ -53,6 +55,29 @@ public class GameLevel : MonoBehaviour
         _summonsParent.transform.parent = transform;
     }
 
+    public void Start()
+    {
+        DrawPlayerHand();
+    }
+
+    public void DrawPlayerHand()
+    {
+        GetComponent<PubSubSender>().Publish("hand.discard.all");
+        const int cardsPerHand = 5;
+        GetComponent<PubSubSender>().Publish("deck.draw.number", cardsPerHand);
+    }
+
+    public void OnWaveComplete(PubSubListenerEvent e)
+    {
+        var waveManager = e.value as WaveManager;
+        if (waveManager != null && waveManager != WaveManager)
+        {
+            return;
+        }
+
+        DrawPlayerHand();
+    }
+
     public void RegisterLevelManager(LevelManager levelManager)
     {
         if (LevelManager != null)
@@ -62,6 +87,17 @@ public class GameLevel : MonoBehaviour
         }
 
         LevelManager = levelManager;
+    }
+
+    public void RegisterWaveManager(WaveManager waveManager)
+    {
+        if (WaveManager != null)
+        {
+            Debug.LogError("Trying to register wave manager for a game level that already has one registered.");
+            return;
+        }
+
+        WaveManager = waveManager;
     }
 
     public void RegisterEndPortal(EndPortal endPortal)

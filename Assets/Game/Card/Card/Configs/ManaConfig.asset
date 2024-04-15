@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Type: 2
   TypeIcon: {fileID: 21300000, guid: e9fc4b44c5ae44dcfbda83f09192729f, type: 3}
-  HeaderBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
-  ContentBackgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  HeaderBackgroundColor: {r: 0.07450981, g: 0.08627451, b: 0.39607844, a: 1}
+  ContentBackgroundColor: {r: 0.18115878, g: 0.198346, b: 0.6509434, a: 1}
   OutlineColor: {r: 0, g: 0, b: 0, a: 1}
   HeaderTextColor: {r: 1, g: 1, b: 1, a: 1}
   DescriptionTextColor: {r: 1, g: 1, b: 1, a: 1}

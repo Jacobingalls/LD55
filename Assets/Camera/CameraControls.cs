@@ -11,7 +11,8 @@ public class CameraControls : MonoBehaviour
     public bool CameraIsZooming = false;
 
     private bool _lookingForPanGesture = false;
-    private float _startTime = 0;
+
+    private bool _canZoom = true;
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +32,6 @@ public class CameraControls : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             _lookingForPanGesture = true;
-            _startTime = Time.realtimeSinceStartup;
         }
 
         if (!_lookingForPanGesture && !CameraIsPanning)
@@ -45,7 +45,6 @@ public class CameraControls : MonoBehaviour
             {
                 Debug.Log("Stopping camera...");
             }
-            _startTime = 0;
             _lookingForPanGesture = false;
             CameraIsPanning = false;
             return;
@@ -74,11 +73,26 @@ public class CameraControls : MonoBehaviour
 
     void ZoomCamera()
     {
+        if (!_canZoom)
+        {
+            return;
+        }
+
         var scrollDelta = Input.mouseScrollDelta;
 
         _camera.orthographicSize = Mathf.Clamp(
             _camera.orthographicSize - scrollDelta.y,
             MinOrthographicSize,
             MaxOrthographicSize);
+    }
+
+    public void EnableZooming()
+    {
+        _canZoom = true;
+    }
+
+    public void DisableZooming()
+    {
+        _canZoom = false;
     }
 }

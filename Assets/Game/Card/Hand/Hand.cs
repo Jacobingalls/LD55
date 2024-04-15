@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using info.jacobingalls.jamkit;
 
+[RequireComponent(typeof(PubSubListener))]
 public class Hand : MonoBehaviour
 {
 
@@ -17,11 +19,24 @@ public class Hand : MonoBehaviour
         
     }
 
+    CardCursor[] GetCards()
+    {
+        CardCursor[] cards = gameObject.GetComponentsInChildren<CardCursor>();
+
+        return cards;
+    }
+
+    CardCursor[] GetCardsInHand()
+    {
+        CardCursor[] cards = gameObject.GetComponentsInChildren<CardCursor>();
+
+        return cards.Where(c => !c.isSelected && c.context == null).OrderBy(c => c.order).ToArray(); ;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        CardCursor[] cards = gameObject.GetComponentsInChildren<CardCursor>();
-        cards = cards.Where(c => !c.isSelected && c.context == null).OrderBy(c => c.order).ToArray();
+        var cards = GetCardsInHand();
         if (cards.Length == 0) { return; }
 
         float cardSize = unhoveredScale * fullWidthSize;
@@ -39,6 +54,21 @@ public class Hand : MonoBehaviour
             CardCursor card = cards[i];
             card.handPosition = new Vector3(pos, 0, 0);
             card.handScale = unhoveredScale * scaleNeeded;
+        }
+    }
+
+    public void DiscardHand()
+    {
+        var cards = GetCards();
+
+        Debug.Log("DiscardHand");
+
+        for (int i = 0; i < cards.Length; i++)
+        {
+            Debug.Log("Return to Deck");
+            var card = cards[i];
+            card.card.ReturnToDeck();
+            Destroy(card.gameObject);
         }
     }
 }

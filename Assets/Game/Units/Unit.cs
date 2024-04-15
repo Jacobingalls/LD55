@@ -253,11 +253,6 @@ public class Unit : MonoBehaviour, IDamageable
 
     private IEnumerator DamageCoroutine()
     {
-        if (_isBeingDamaged)
-        {
-            yield break;
-        }
-
         _isBeingDamaged = true;
 
         if (!PlayDamageAnimation)
@@ -269,22 +264,24 @@ public class Unit : MonoBehaviour, IDamageable
 
         foreach (var sr in spriteRenderers)
         {
-            var dissolveEffect = sr.gameObject.AddComponent<DamageEffect>();
+            if (sr.gameObject.TryGetComponent<DamageEffect>(out var dissolveEffect))
+            {
+                dissolveEffect.Reset();
+            }
+            else
+            {
+                dissolveEffect = sr.gameObject.AddComponent<DamageEffect>();
+                dissolveEffect.CompletionHandler = (DamageEffect de) => {
+                    _isBeingDamaged = false;
+                };
+            }
+            dissolveEffect.DestroyOnCompletion = true;
             dissolveEffect.DamageMaterial = DamageShader;
             dissolveEffect.DamageAmount = 0;
             dissolveEffect.SinglePingPongDuration = DamageAnimationPingPongTime;
             dissolveEffect.IsDamaging = true;
             dissolveEffect.PingPongCount = NumberOfPingPongs;
         }
-
-        yield return new WaitForSeconds(DeathAnimationTime);
-
-        foreach (var sr in spriteRenderers)
-        {
-            Destroy(sr.gameObject.GetComponent<DissolveEffect>());
-        }
-
-        _isBeingDamaged = false;
     }
 
     void PlayDeathAudio()
@@ -320,6 +317,8 @@ public class Unit : MonoBehaviour, IDamageable
         _alive = false;
         Health = 0;
 
+        Destroy(GetComponent<Targetable>());
+
         GetComponent<PubSubSender>().Publish("unit.slain");
 
         StartCoroutine(DeathCoroutine());
@@ -340,6 +339,12 @@ public class Unit : MonoBehaviour, IDamageable
 
         foreach (var sr in spriteRenderers)
         {
+            if (sr.gameObject.TryGetComponent<DamageEffect>(out var damageEffect))
+            {
+                damageEffect.Stop();
+                Destroy(damageEffect);
+            }
+
             var dissolveEffect = sr.gameObject.AddComponent<DissolveEffect>();
             dissolveEffect.DissolveMaterial = DeathShader;
             dissolveEffect.DissolveAmount = 0;

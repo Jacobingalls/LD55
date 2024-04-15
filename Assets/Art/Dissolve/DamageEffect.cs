@@ -13,6 +13,7 @@ public class DamageEffect : MonoBehaviour
     public float SinglePingPongDuration = 0.25f;
     public float DamageAmount;
 
+    public bool DestroyOnCompletion;
     public bool IsDamaging;
     public int PingPongCount;
     private int _currentPingPong;
@@ -35,8 +36,29 @@ public class DamageEffect : MonoBehaviour
 
     private void OnDestroy()
     {
+        Stop();
+    }
+
+    public void Reset()
+    {
+        IsDamaging = false;
+        _t = 0;
+        _currentPingPong = 0;
+    }
+
+    public void Stop()
+    {
+        if (!IsDamaging)
+        {
+            return;
+        }
+
         if (_sr != null)
-        _sr.material = _cachedMaterial;
+        {
+            _sr.material = _cachedMaterial;
+        }
+
+        IsDamaging = false;
     }
 
     // Update is called once per frame
@@ -64,7 +86,16 @@ public class DamageEffect : MonoBehaviour
                     {
                         CompletionHandler(this);
                     }
-                    enabled = false;
+
+                    if (DestroyOnCompletion)
+                    {
+                        Stop();
+                        Destroy(this);
+                    }
+                    else
+                    {
+                        enabled = false;
+                    }
                 }
                 else
                 {

@@ -6,12 +6,16 @@ using UnityEditor;
 using UnityEngine;
 using static WaveManager.Wave.Subwave;
 using static WaveManager.Wave;
+using info.jacobingalls.jamkit;
 
+[RequireComponent(typeof(PubSubSender))]
 public class WaveManager : MonoBehaviour
 {
     [System.Serializable]
     public class Wave
     {
+        public delegate void SpawnCompletionHandler(Wave wave);
+
         [System.Serializable]
         public class WavePath
         {
@@ -22,6 +26,8 @@ public class WaveManager : MonoBehaviour
         [System.Serializable]
         public class Subwave
         {
+            public delegate void SpawnCompletionHandler(Subwave subwave);
+
             [System.Serializable]
             public class UnitSpawnConfig
             {
@@ -128,7 +134,7 @@ public class WaveManager : MonoBehaviour
                 return null;
             }
 
-            public IEnumerator Spawn(Transform unitParentTransform)
+            public IEnumerator Spawn(Transform unitParentTransform, SpawnCompletionHandler spawnCompletionHandler)
             {
                 var t = 0.0f;
                 var i = 0;
@@ -154,6 +160,11 @@ public class WaveManager : MonoBehaviour
 
                     yield return null;
                 }
+
+                if (spawnCompletionHandler != null)
+                {
+                    spawnCompletionHandler(this);
+                }
             }
         }
 
@@ -164,12 +175,25 @@ public class WaveManager : MonoBehaviour
             Subwaves = new List<Subwave> { new() };
         }
 
-        public IEnumerator Spawn(List<WavePath> wavePaths, Transform unitParentTransform)
+        private bool _spawning = false;
+        private int _spawnedSubwaves = 0;
+
+        public IEnumerator Spawn(List<WavePath> wavePaths, Transform unitParentTransform, SpawnCompletionHandler spawnCompletionHandler = null)
         {
+            if (_spawning) { yield break; }
+            _spawning = true;
+            _spawnedSubwaves = 0;
             foreach (var subwave in Subwaves)
             {
                 subwave.WavePaths = wavePaths;
-                yield return subwave.Spawn(unitParentTransform);
+                yield return subwave.Spawn(unitParentTransform, (Subwave subwave) => {
+                    _spawnedSubwaves += 1;
+
+                    if (spawnCompletionHandler != null && _spawnedSubwaves == Subwaves.Count)
+                    {
+                        spawnCompletionHandler(this);
+                    }
+                });
 
                 var t = 0.0f;
                 while (t < subwave.TimeToNextSubwave)
@@ -178,6 +202,12 @@ public class WaveManager : MonoBehaviour
                     yield return null;
                 }
             }
+            _spawning = false;
+        }
+
+        public bool HasFinishedSpawningSubwaves()
+        {
+            return _spawnedSubwaves == Subwaves.Count;
         }
     }
 
@@ -191,6 +221,7 @@ public class WaveManager : MonoBehaviour
     void Start()
     {
         _gameLevel = GetComponentInParent<GameLevel>();
+        _gameLevel.RegisterWaveManager(this);
 
         var config = new GridRangeIndicator.Configuration();
         config.range = 999;
@@ -212,33 +243,51 @@ public class WaveManager : MonoBehaviour
         }
     }
 
-    private int _currentWave = -1;
+    private int _currentWaveIndex = -1;
     private bool _waveIsActive = false;
+    private bool _initializingWave = false;
     private GameObject _currentWaveUnits = null;
 
     public void StartNextWave()
     {
-        if (_currentWave == Waves.Count - 1 || _waveIsActive)
+        if (_currentWaveIndex == Waves.Count - 1 || _waveIsActive)
         {
             return;
         }
 
-        _currentWave += 1;
-        var wave = Waves[_currentWave];
-        _currentWaveUnits = new GameObject($"Wave {_currentWave} Units");
+        _waveIsActive = true;
+        _currentWaveIndex += 1;
+
+        var wave = Waves[_currentWaveIndex];
+        _currentWaveUnits = new GameObject($"Wave {_currentWaveIndex} Units");
         _currentWaveUnits.transform.parent = transform;
 
-        Debug.Log($"Wave {_currentWave} has started.");
-        _waveIsActive = true;
+        Debug.Log($"Wave {_currentWaveIndex} has started.");
         StartCoroutine(wave.Spawn(_wavePaths, unitParentTransform: _currentWaveUnits.transform));
+
+        GetComponent<PubSubSender>().Publish("wave.started", this);
+    }
+
+    private void WaveCompleted()
+    {
+        Debug.Log($"Wave {_currentWaveIndex} has ended.");
+        _waveIsActive = false;
+
+        GetComponent<PubSubSender>().Publish("wave.completed", this);
     }
 
     private void LateUpdate()
     {
-        if (_waveIsActive && _currentWaveUnits.transform.childCount == 0)
+        if (_currentWaveIndex == -1)
         {
-            Debug.Log($"Wave {_currentWave} has ended.");
-            _waveIsActive = false;
+            return;
+        }
+
+        var currentWave = Waves[_currentWaveIndex];
+
+        if (currentWave.HasFinishedSpawningSubwaves() && _waveIsActive && _currentWaveUnits.transform.childCount == 0)
+        {
+            WaveCompleted();
         }
     }
 
