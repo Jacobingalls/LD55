@@ -16,5 +16,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0eb32c81911584ac0a362a0d41c942da, type: 2}
   - {fileID: 11400000, guid: eb6f60c98a42546518a3146155f5ac8f, type: 2}
   - {fileID: 11400000, guid: c1c3745d89dbe4ca3b7d8a19be381d5c, type: 2}
+  - {fileID: 11400000, guid: fcc8582f9b74447df9dd6d4536d870df, type: 2}
   summonable: 0
   walkable: 1
