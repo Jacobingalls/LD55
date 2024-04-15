@@ -147,6 +147,7 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         if (eventData.button != PointerEventData.InputButton.Left) { return; }
         isSelected = true;
 
+        PlayCardPlayAudio();
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -172,6 +173,15 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     public void OnPointerExit(PointerEventData eventData)
     {
         isHovered = false;
+    }
+
+    public void PlayCardPlayAudio()
+    {
+        AudioManager.Instance.Play("Card/Play",
+        pitchMin: 0.8f, pitchMax: 1.2f,
+        volumeMin: 0.25f, volumeMax: 0.25f,
+        position: Camera.main.transform.position,
+        minDistance: 10, maxDistance: 20);
     }
 
     public void PlayOnCardDrop()

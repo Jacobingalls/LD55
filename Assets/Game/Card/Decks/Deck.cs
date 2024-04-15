@@ -5,11 +5,14 @@ using UnityEngine.EventSystems;
 using info.jacobingalls.jamkit;
 using System.Linq;
 using System;
+using TMPro;
 
 public class Deck : MonoBehaviour
 {
     public DeckDefinition deckDefinition;
     public List<CardActionDefinition> cardsInDeck, cardsInDiscard = new List<CardActionDefinition>();
+
+    public TextMeshProUGUI NumberOfCardsLeftInDeckLabel;
 
     public GameObject cardCursorPrefab;
     Hand hand;
@@ -53,12 +56,31 @@ public class Deck : MonoBehaviour
         DrawCards((int)e.value);
     }
 
+    public void PlayDeckShuffleAudio()
+    {
+        AudioManager.Instance.Play("Card/Shuffle",
+        pitchMin: 0.9f, pitchMax: 1.1f,
+        volumeMin: 0.25f, volumeMax: 0.25f,
+        position: Camera.main.transform.position,
+        minDistance: 10, maxDistance: 20);
+    }
+
+    public void PlayCardDrawAudio()
+    {
+        AudioManager.Instance.Play("Card/Draw",
+        pitchMin: 0.8f, pitchMax: 1.2f,
+        volumeMin: 0.25f, volumeMax: 0.25f,
+        position: Camera.main.transform.position,
+        minDistance: 10, maxDistance: 20);
+    }
+
     public GameObject SpawnCard()
     {
         if (cardsInDeck.Count <= 0 && cardsInDiscard.Count > 0)
         {
             cardsInDeck = cardsInDiscard.OrderBy(_ => Guid.NewGuid()).ToList();
             cardsInDiscard = new List<CardActionDefinition>();
+            PlayDeckShuffleAudio();
         }
 
         if (cardsInDeck.Count <= 0) { return null; }
@@ -76,6 +98,9 @@ public class Deck : MonoBehaviour
             card.card.actionDefinition = topCard;
             card.card.deck = this;
         }
+
+        PlayCardDrawAudio();
+        NumberOfCardsLeftInDeckLabel.text = $"{cardsInDeck.Count}";
 
         return o;
     }

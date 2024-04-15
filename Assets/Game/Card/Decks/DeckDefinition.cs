@@ -26,6 +26,7 @@ public class DeckDefinition : ScriptableObject
             }
 
             // Shuffle deck :)
+            // Holy hell Jacob
             return cards.OrderBy( _ => Guid.NewGuid()).ToList();
         }
     }
