@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea49d42127d36483194aa11cd8138b9b, type: 3}
+  m_Name: SummonFleshy3
+  m_EditorClassIdentifier: 
+  Name: Dogs with Guns
+  Description: '<sprite name=action>: Summon turret that fires <color="red">5</color>
+    projectile dealing <sprite name="damage_courier">.'
+  FlavorText: '"How''d you even learn to do that?"'
+  Icon: {fileID: 21300000, guid: a7a05e4d18dc54b76a2442d58b96b3a5, type: 3}
+  PlacementIcon: {fileID: 21300000, guid: a7a05e4d18dc54b76a2442d58b96b3a5, type: 3}
+  Kind: 1
+  Target: 1
+  Type: 3
+  Behaviors:
+  - {fileID: -5267030843400808064, guid: 6249011084b35492ea9be46970b23fe4, type: 3}
+  CardsConfig: {fileID: 11400000, guid: cb30482471d483948ae3290c6a1ab6d9, type: 2}
+  ActionPointCost: 1
+  PurchaseCost: 3

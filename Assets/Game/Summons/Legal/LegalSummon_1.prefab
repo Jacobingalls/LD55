@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5956442967043111359}
   - component: {fileID: 8738135684264045398}
   m_Layer: 0
-  m_Name: InkSummon_3
+  m_Name: LegalSummon_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,11 +61,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LevelManager: {fileID: 0}
-  Name: Ink Summon 3
+  Name: Ink Summon 1
   _range: 5
   _targetPriority: 1
   _abilityPrefabs:
-  - {fileID: 910441736817006832, guid: 3728c2d37d3e02945beabb0abb364807, type: 3}
+  - {fileID: 910441736817006832, guid: 35e3745804d13f045a1836f56f07cf3e, type: 3}
   _cooldownBetweenAbilities: 0
   _abilityOriginTransform: {fileID: 415817270198721534}
 --- !u!114 &8738135684264045398
@@ -250,7 +250,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 1405da9f41fbb42c685ce34314ae5d49, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ee34f6da3864d488daf01c956d7d84bc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

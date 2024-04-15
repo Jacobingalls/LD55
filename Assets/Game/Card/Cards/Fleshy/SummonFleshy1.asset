@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea49d42127d36483194aa11cd8138b9b, type: 3}
+  m_Name: SummonFleshy1
+  m_EditorClassIdentifier: 
+  Name: Barking Dogs
+  Description: '<sprite name=action>: Summon turret that fires <color="red">1</color>
+    projectile dealing <sprite name="damage_courier">.'
+  FlavorText: '"I wonder if they bite?"'
+  Icon: {fileID: 21300000, guid: 67bb8248381014af7a57a89b811d2c00, type: 3}
+  PlacementIcon: {fileID: 21300000, guid: 67bb8248381014af7a57a89b811d2c00, type: 3}
+  Kind: 1
+  Target: 1
+  Type: 3
+  Behaviors:
+  - {fileID: -5267030843400808064, guid: 839aa9804670c43b1a68aff9581c6aac, type: 3}
+  CardsConfig: {fileID: 11400000, guid: cb30482471d483948ae3290c6a1ab6d9, type: 2}
+  ActionPointCost: 1
+  PurchaseCost: 1

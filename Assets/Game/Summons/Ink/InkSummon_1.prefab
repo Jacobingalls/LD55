@@ -60,8 +60,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 267016169d379594a9d4038ca29e97af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Definition: {fileID: 11400000, guid: dd67ab466b31f34499d78081f6c711f2, type: 2}
   LevelManager: {fileID: 0}
+  Name: Ink Summon 1
   _range: 5
   _targetPriority: 1
   _abilityPrefabs:
@@ -250,7 +250,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a8f2ba0dce3634c4182e9014f38bbb05, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 76b52ddd67fc64cf6aa628667d72efb1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
