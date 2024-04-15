@@ -212,21 +212,32 @@ public class WaveManager : MonoBehaviour
         }
     }
 
-    private const float secondsBetweenUnitWaves = 2.5f;
-    private float _t = secondsBetweenUnitWaves;
+    private int _currentWave = -1;
+    private bool _waveIsActive = false;
+    private GameObject _currentWaveUnits = null;
 
-    private bool __temp_spawnedWave = false;
-    private void Update()
+    public void StartNextWave()
     {
-        _t += Time.deltaTime;
-
-
-        if (_t > secondsBetweenUnitWaves && !__temp_spawnedWave)
+        if (_currentWave == Waves.Count - 1 || _waveIsActive)
         {
-            var firstWave = Waves.First();
-            StartCoroutine(firstWave.Spawn(_wavePaths, unitParentTransform: transform));
-            _t -= secondsBetweenUnitWaves;
-            __temp_spawnedWave = true;
+            return;
+        }
+
+        _currentWave += 1;
+        var wave = Waves[_currentWave];
+        _currentWaveUnits = new GameObject($"Wave {_currentWave} Units");
+        _currentWaveUnits.transform.parent = transform;
+
+        Debug.Log($"Wave {_currentWave} has started.");
+        _waveIsActive = true;
+        StartCoroutine(wave.Spawn(_wavePaths, unitParentTransform: _currentWaveUnits.transform));
+    }
+
+    private void LateUpdate()
+    {
+        if (_waveIsActive && _currentWaveUnits.transform.childCount == 0)
+        {
+            Debug.Log($"Wave {_currentWave} has ended.");
         }
     }
 

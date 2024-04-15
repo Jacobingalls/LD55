@@ -366,6 +366,5 @@ public class Unit : MonoBehaviour, IDamageable
 
         Destroy(gameObject);
 
-        _gameLevel.UnitHasReachedTheEnd();
     }
 }

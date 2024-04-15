@@ -26,6 +26,7 @@ public class LevelManager : MonoBehaviour
             if (childTransform.TryGetComponent<GameLevel>(out var gameLevel))
             {
                 _levels.Add(gameLevel);
+                gameLevel.RegisterLevelManager(this);
             }
 
             gameLevel.gameObject.SetActive(false);
@@ -49,7 +50,8 @@ public class LevelManager : MonoBehaviour
 
         if (_currentLevelIndex != -1)
         {
-            _levels[_currentLevelIndex].gameObject.SetActive(false);
+            var oldLevel = _levels[_currentLevelIndex];
+            oldLevel.gameObject.SetActive(false);
         }
 
         _currentLevelIndex = index;

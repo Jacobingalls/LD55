@@ -29,11 +29,10 @@ public class GameLevel : MonoBehaviour
 
     private List<Unit> _units = new();
     private List<Summon> _summons = new();
+    private EndPortal _endPortal;
+    public LevelManager LevelManager { get; private set; }
 
     private GameObject _summonsParent;
-
-    [SerializeField][Range(1, 40)] private int _startingLife = 10;
-    private int _currentLife;
 
     public Vector3 GetCameraStartingPosition()
     {
@@ -54,19 +53,26 @@ public class GameLevel : MonoBehaviour
         _summonsParent.transform.parent = transform;
     }
 
-    public void Start()
+    public void RegisterLevelManager(LevelManager levelManager)
     {
-        _currentLife = _startingLife;
+        if (LevelManager != null)
+        {
+            Debug.LogError("Trying to register level manager for a game level that already has one registered.");
+            return;
+        }
+
+        LevelManager = levelManager;
     }
 
-    public void UnitHasReachedTheEnd()
+    public void RegisterEndPortal(EndPortal endPortal)
     {
-        _currentLife -= 1;
-
-        if (_currentLife == 0)
+        if (_endPortal != null)
         {
-            transform.GetComponentInParent<LevelManager>().StartNextLevel();
+            Debug.LogError("Trying to register end portal for a game level that already has one registered.");
+            return;
         }
+
+        _endPortal = endPortal;
     }
 
     public void RegisterUnit(Unit unit)

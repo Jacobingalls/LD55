@@ -127,6 +127,21 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    public Vector2Int WorldTilePositionToGridTilePosition(Vector2Int worldTilePosition)
+    {
+        var result = new Vector2Int(worldTilePosition.x - Mathf.FloorToInt(transform.position.x), worldTilePosition.y - Mathf.FloorToInt(transform.position.y));
+
+        Debug.Log("Was " + worldTilePosition);
+        Debug.Log("Is now " + result);
+
+        return result;
+    }
+
+    public Vector3Int WorldTilePositionToGridTilePosition(Vector3Int worldTilePosition)
+    {
+        return new Vector3Int(worldTilePosition.x - Mathf.FloorToInt(transform.position.x), worldTilePosition.y - Mathf.FloorToInt(transform.position.y), worldTilePosition.z - Mathf.FloorToInt(transform.position.z));
+    }
+
     ////An ordered list of selectables at a given tile.
     //public List<Selectable> GetSelectables(Vector2Int position)
     //{
@@ -202,7 +217,7 @@ public class GridManager : MonoBehaviour
         _dirtyWaypoints = true;
         var tileData = GetTileData(position);
 
-        if (!Walkable.HasTile((Vector3Int)position))
+        if (!Walkable.HasTile((Vector3Int)WorldTilePositionToGridTilePosition(position)))
         {
             Debug.LogError("Cannot register waypoint " + waypoint + " at " + position + " as a walkable tile does not exist there!");
             return;
@@ -242,7 +257,7 @@ public class GridManager : MonoBehaviour
             return;
         }
 
-        if (!Walkable.HasTile((Vector3Int)position))
+        if (!Walkable.HasTile((Vector3Int)WorldTilePositionToGridTilePosition(position)))
         {
             Debug.LogError("Cannot register Summon " + Summon + " at " + position + " as a walkable tile does not exist there!");
             return;
@@ -666,7 +681,7 @@ public class GridManager : MonoBehaviour
 
     bool TileIsWalkable(Vector3Int tilePosition, Vector3Int? target, bool alwaysIncludeTarget, bool ignoringObstacles)
     {
-        var tileExists = Walkable.HasTile(tilePosition);
+        var tileExists = Walkable.HasTile(WorldTilePositionToGridTilePosition(tilePosition));
 
         var obstaclesInTheWay = false;
         if (!ignoringObstacles) {
