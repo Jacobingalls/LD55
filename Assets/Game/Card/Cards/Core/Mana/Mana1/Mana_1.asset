@@ -10,19 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ea49d42127d36483194aa11cd8138b9b, type: 3}
-  m_Name: DrawTwoCards
+  m_Name: Mana_1
   m_EditorClassIdentifier: 
-  Name: Scry
-  Description: '<sprite name="action>: Draw two cards.'
-  FlavorText: 
-  Icon: {fileID: 21300000, guid: 09b6a7dcfc9a64945a3f3d5c87fc07c9, type: 3}
-  PlacementIcon: {fileID: 21300000, guid: c7caaaf209bae472dae37cfe8b444f24, type: 3}
-  Color: {r: 0.6226415, g: 0.18503025, b: 0.19578925, a: 1}
+  Name: Arcane Essence
+  Description: Worth 1 <sprite name="mana>.
+  FlavorText: Used to buy more cards.
+  Icon: {fileID: 21300000, guid: ad68d165fe9f74bc2af39f217d81a0a2, type: 3}
+  PlacementIcon: {fileID: 21300000, guid: ad68d165fe9f74bc2af39f217d81a0a2, type: 3}
   Kind: 3
   Target: 2
-  Type: 1
+  Type: 2
   Behaviors:
-  - {fileID: -3010554025262517575, guid: 924a3c3d5d2414057a79d2a15aab6cec, type: 3}
+  - {fileID: 5726917880869361003, guid: a890a816de326c747aa8847a5adfa75f, type: 3}
   CardsConfig: {fileID: 11400000, guid: cb30482471d483948ae3290c6a1ab6d9, type: 2}
-  ActionPointCost: 1
+  ActionPointCost: 0
   PurchaseCost: 0

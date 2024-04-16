@@ -21,3 +21,7 @@ MonoBehaviour:
     Count: 3
   - Card: {fileID: 11400000, guid: 6172ce1a5b82cc046bb02c651be38654, type: 2}
     Count: 5
+  - Card: {fileID: 11400000, guid: e14771843076c48878f33ba6bac56251, type: 2}
+    Count: 10
+  - Card: {fileID: 11400000, guid: b088ceb3571c44263b1bbf561df4d134, type: 2}
+    Count: 10

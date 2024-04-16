@@ -11,7 +11,8 @@ public enum CardType
     Electricity,
     Legal,
     Ink,
-    Explosive
+    Explosive,
+    Actions
 }
 
 [CreateAssetMenu(fileName = "CardConfig", menuName = "Card/Config", order = 2)]
