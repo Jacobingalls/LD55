@@ -106,8 +106,7 @@ public struct CardExecutionContext
 
     public bool CanAfford()
     {
-        var self = this;
-        return actionDefinition.Behaviors.TrueForAll(b => b.CanAfford(self));
+        return actionDefinition.ActionPointCost <= GameObject.FindObjectOfType<LevelManager>().ActiveLevel.AvailableActions;
     }
 
     public void Execute()
@@ -117,9 +116,10 @@ public struct CardExecutionContext
             return;
         }
 
+        GameObject.FindObjectOfType<LevelManager>().ActiveLevel.AvailableActions -= actionDefinition.ActionPointCost;
+
         foreach (var behavior in actionDefinition.Behaviors)
         {
-            behavior.PayCost(this);
             behavior.Execute(this);
         }
     }

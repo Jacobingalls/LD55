@@ -6,22 +6,10 @@ using UnityEngine;
 
 public class CardActionBehavior : MonoBehaviour
 {
-    [Range(0, 5)]
-    public int ActionCost = 1;
 
     public virtual bool IsManaCard()
     {
         return false;
-    }
-
-    public virtual bool CanAfford(CardExecutionContext context)
-    {
-        return ActionCost <= FindObjectOfType<LevelManager>().ActiveLevel.AvailableActions;
-    }
-
-    public virtual void PayCost(CardExecutionContext context)
-    {
-        FindObjectOfType<LevelManager>().ActiveLevel.AvailableActions -= ActionCost;
     }
 
     public virtual bool CanExecute(CardExecutionContext context)

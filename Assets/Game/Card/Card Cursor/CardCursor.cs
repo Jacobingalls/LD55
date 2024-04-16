@@ -54,14 +54,15 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public bool IsManaCard()
     {
+        // Require all
         foreach (var behavior in card.actionDefinition.Behaviors)
         {
-            if (behavior.IsManaCard())
+            if (!behavior.IsManaCard())
             {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     // Start is called before the first frame update
