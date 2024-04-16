@@ -34,6 +34,13 @@ public class LevelManager : MonoBehaviour
             gameLevel.gameObject.SetActive(false);
         }
 
+        StartCoroutine(StartNextLevelWithDelay(0.050f));
+    }
+
+    public IEnumerator StartNextLevelWithDelay(float seconds)
+    {
+        yield return new WaitForSecondsRealtime(seconds);
+
         ActivateLevel(StartingLevel);
     }
 
