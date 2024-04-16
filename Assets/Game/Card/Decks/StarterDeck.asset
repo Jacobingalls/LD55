@@ -16,8 +16,10 @@ MonoBehaviour:
   CardBack: {fileID: 21300000, guid: 40df5b9759b2a8549ac7cfc13e332d17, type: 3}
   CardCounts:
   - Card: {fileID: 11400000, guid: c4c414f2e6f194e4b9332de0178a61dc, type: 2}
-    Count: 2
+    Count: 0
   - Card: {fileID: 11400000, guid: a930d43f7d67549c5ac77b8ddbb6f0ec, type: 2}
-    Count: 3
+    Count: 0
   - Card: {fileID: 11400000, guid: 6172ce1a5b82cc046bb02c651be38654, type: 2}
+    Count: 0
+  - Card: {fileID: 11400000, guid: 19de66d5518724afdb3ff252fb4e1652, type: 2}
     Count: 5
