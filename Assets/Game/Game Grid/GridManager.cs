@@ -27,6 +27,11 @@ public struct TileData
             return GridManager.TileCoordinateToWorldPosition(Position);
         }
     }
+
+    public bool IsEmpty()
+    {
+        return Summon == null && Waypoints.Count == 0;
+    }
 }
 
 [RequireComponent(typeof(PubSubSender))]
@@ -116,7 +121,7 @@ public class GridManager : MonoBehaviour
 
     public void UpdateTileData(TileData newTileData)
     {
-        if (true /* newTileData.IsEmpty() */) // Was stubbed true before, not sure how to fix.
+        if (newTileData.IsEmpty()) // Was stubbed true before, not sure how to fix.
         {
             if (_tileData.ContainsKey(newTileData.Position))
             {
@@ -137,10 +142,6 @@ public class GridManager : MonoBehaviour
     public Vector2Int WorldTilePositionToGridTilePosition(Vector2Int worldTilePosition)
     {
         var result = new Vector2Int(worldTilePosition.x - Mathf.FloorToInt(transform.position.x), worldTilePosition.y - Mathf.FloorToInt(transform.position.y));
-
-        Debug.Log("Was " + worldTilePosition);
-        Debug.Log("Is now " + result);
-
         return result;
     }
 
@@ -689,6 +690,7 @@ public class GridManager : MonoBehaviour
     bool TileIsWalkable(Vector3Int tilePosition, Vector3Int? target, bool alwaysIncludeTarget, bool ignoringObstacles)
     {
         var tileExists = Walkable.HasTile(WorldTilePositionToGridTilePosition(tilePosition));
+        var wallTileDoesNotExist = !Walls.HasTile(WorldTilePositionToGridTilePosition(tilePosition));
 
         var obstaclesInTheWay = false;
         if (!ignoringObstacles) {
@@ -709,7 +711,7 @@ public class GridManager : MonoBehaviour
             tileCanBeWalkedOn = tileConfig.walkable;
         }
 
-        return tileExists && (!obstaclesInTheWay || overrideObstacleCheck) && tileCanBeWalkedOn;
+        return tileExists && (!obstaclesInTheWay || overrideObstacleCheck) && tileCanBeWalkedOn && wallTileDoesNotExist;
     }
 
     public List<Vector3Int> NeighborsForTileAtPosition(Vector3Int tilePosition, Vector3Int? target = null, bool includeDiagonal = false, bool alwaysIncludeTarget = false, bool ignoringObstacles = false)

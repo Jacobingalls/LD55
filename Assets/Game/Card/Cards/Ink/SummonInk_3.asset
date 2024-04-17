@@ -25,4 +25,4 @@ MonoBehaviour:
   - {fileID: -5267030843400808064, guid: 61fa0b16309e6274fa3f0b16dca51a26, type: 3}
   CardsConfig: {fileID: 11400000, guid: cb30482471d483948ae3290c6a1ab6d9, type: 2}
   ActionPointCost: 1
-  PurchaseCost: 3
+  PurchaseCost: 4

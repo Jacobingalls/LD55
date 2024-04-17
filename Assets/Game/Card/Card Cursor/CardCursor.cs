@@ -228,13 +228,9 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public void PlayOnCardDrop(bool forced = false)
     {
-        Debug.Log("PlayOnCardDrop " + this);
         if (context != null) {
             if (forced || context?.Validate() == true)
             {
-                Debug.Log("Execute " + this);
-                Debug.Log(context?.actionDefinition);
-                Debug.Log(context?.target);
                 context?.Execute();
                 card.ReturnToDeck();
                 GameObject.Destroy(gameObject);

@@ -44,6 +44,12 @@ public class GameLevel : MonoBehaviour
         {
             return wizardTowerGO.transform.position;
         }
+
+        var endPortalGO = transform.Find("EndPortal");
+        if (endPortalGO != null)
+        {
+            return endPortalGO.transform.position;
+        }
         else
         {
             return transform.position;
@@ -122,7 +128,7 @@ public class GameLevel : MonoBehaviour
     public void InitializeRound()
     {
         AvailableMana = 0;
-        AvailableBuys = 1;
+        AvailableBuys = 9999; // Absolute gigachad
         AvailableActions = _startingActions;
 
         var round = WaveManager.CurrentWave + 1;
@@ -232,6 +238,8 @@ public class GameLevel : MonoBehaviour
         }
 
         _summons.Add(summon);
+        var summonTilePosition = new Vector2Int(Mathf.FloorToInt(summon.transform.position.x), Mathf.FloorToInt(summon.transform.position.y));
+        _gridManager.RegisterSummon(summon, summonTilePosition);
         summon.transform.parent = _summonsParent.transform;
     }
 
@@ -243,6 +251,7 @@ public class GameLevel : MonoBehaviour
             return;
         }
 
+        _gridManager.UnregisterSummon(summon);
         _summons.Remove(summon);
     }
 

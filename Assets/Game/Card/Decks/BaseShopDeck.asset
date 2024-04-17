@@ -15,10 +15,20 @@ MonoBehaviour:
   Name: Red Deck
   CardBack: {fileID: 21300000, guid: 40df5b9759b2a8549ac7cfc13e332d17, type: 3}
   CardCounts:
-  - Card: {fileID: 11400000, guid: c4c414f2e6f194e4b9332de0178a61dc, type: 2}
-    Count: 3
   - Card: {fileID: 11400000, guid: 6172ce1a5b82cc046bb02c651be38654, type: 2}
     Count: 3
+  - Card: {fileID: 11400000, guid: e14771843076c48878f33ba6bac56251, type: 2}
+    Count: 2
+  - Card: {fileID: 11400000, guid: b088ceb3571c44263b1bbf561df4d134, type: 2}
+    Count: 2
+  - Card: {fileID: 11400000, guid: c4c414f2e6f194e4b9332de0178a61dc, type: 2}
+    Count: 2
+  - Card: {fileID: 11400000, guid: be23efaf536c446229eef2cd70a8b4bd, type: 2}
+    Count: 2
+  - Card: {fileID: 11400000, guid: 5759840214c7649c3a2860e431ae5679, type: 2}
+    Count: 2
+  - Card: {fileID: 11400000, guid: 19de66d5518724afdb3ff252fb4e1652, type: 2}
+    Count: 2
   - Card: {fileID: 11400000, guid: a930d43f7d67549c5ac77b8ddbb6f0ec, type: 2}
     Count: 3
   - Card: {fileID: 11400000, guid: 99633036ff39c4a3d993df478c3dc20e, type: 2}

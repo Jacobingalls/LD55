@@ -66,7 +66,7 @@ public class Hand : MonoBehaviour
         {
             manaCard.handPosition = new Vector3(-1000, 1000.0f, manaCard.transform.position.z);
             manaCard.executeOnceHandPositionReached = true;
-            manaCard.transform.parent = manaCard.transform.parent.parent;
+            manaCard.transform.SetParent(manaCard.transform.parent.parent);
         }
     }
 

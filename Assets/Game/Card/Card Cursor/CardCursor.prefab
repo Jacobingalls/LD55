@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9094388203470847222}
   - component: {fileID: 4421252061912017054}
   - component: {fileID: 346848858712869651}
+  - component: {fileID: 3053329796588694866}
   m_Layer: 5
   m_Name: CardCursor
   m_TagString: Untagged
@@ -94,6 +95,7 @@ MonoBehaviour:
   order: 0
   handScale: 0.6
   handPosition: {x: 0, y: 0, z: 0}
+  executeOnceHandPositionReached: 0
   handHoverScale: 1
   handHoverOffset: {x: 0, y: 20, z: -1}
   card: {fileID: 4005025861893152127}
@@ -154,6 +156,18 @@ MonoBehaviour:
   isSelected: 0
   isHovered: 0
   speed: 2
+--- !u!114 &3053329796588694866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7738950398988072278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daa85f00fea274f27ad241da0b5a270c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8092927941012597929
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,7 +311,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: caf70d9896b1b479cb6e0644975435d7, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1

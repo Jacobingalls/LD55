@@ -41,10 +41,6 @@ public class CameraControls : MonoBehaviour
 
         if (!Input.GetMouseButton(1) && !Input.GetMouseButtonUp(1))
         {
-            if (CameraIsPanning)
-            {
-                Debug.Log("Stopping camera...");
-            }
             _lookingForPanGesture = false;
             CameraIsPanning = false;
             return;
@@ -55,7 +51,6 @@ public class CameraControls : MonoBehaviour
             _lastMousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
             _lookingForPanGesture = false;
             CameraIsPanning = true;
-            Debug.Log("Panning camera...");
         }
 
         if (CameraIsPanning)
