@@ -3357,8 +3357,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 266, y: -61.005}
-  m_SizeDelta: {x: 492, y: 82.01}
+  m_AnchoredPosition: {x: 266, y: -47.21}
+  m_SizeDelta: {x: 492, y: 54.42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &658751817
 MonoBehaviour:
@@ -3380,7 +3380,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Fortunatly, I have my Summinion deck ready! With it I will obliterate anything
+  m_text: Fortunatly, I have my Summinion deck ready! I will obliterate anything
     that crosses my path!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3920,7 +3920,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: Besides, I haven't done anything wrong! And If I did... well, they can't
-    prove it! And if they can... then I a ready for war!
+    prove it! And if they can... then I'm ready for war!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5014,7 +5014,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 286, y: -209.22}
+  m_AnchoredPosition: {x: 286, y: -181.63}
   m_SizeDelta: {x: 532, y: 94.42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &885738022
@@ -5218,8 +5218,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 20, y: -287.32}
-  m_SizeDelta: {x: 0, y: 21.779999}
+  m_AnchoredPosition: {x: 20, y: -273.525}
+  m_SizeDelta: {x: 0, y: 49.369995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &935840079
 MonoBehaviour:
@@ -6892,8 +6892,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 286, y: -81.005005}
-  m_SizeDelta: {x: 532, y: 122.01}
+  m_AnchoredPosition: {x: 286, y: -67.21}
+  m_SizeDelta: {x: 532, y: 94.42}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1456548516
 MonoBehaviour:
