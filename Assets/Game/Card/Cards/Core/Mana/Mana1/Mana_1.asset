@@ -15,8 +15,8 @@ MonoBehaviour:
   Name: Arcane Essence
   Description: Worth 1 <sprite name="mana>.
   FlavorText: Used to buy more cards.
-  Icon: {fileID: 21300000, guid: ad68d165fe9f74bc2af39f217d81a0a2, type: 3}
-  PlacementIcon: {fileID: 21300000, guid: ad68d165fe9f74bc2af39f217d81a0a2, type: 3}
+  Icon: {fileID: 21300000, guid: cd8a1b3758e61460184482b9b56804b0, type: 3}
+  PlacementIcon: {fileID: 21300000, guid: cd8a1b3758e61460184482b9b56804b0, type: 3}
   Kind: 3
   Target: 2
   Type: 2
