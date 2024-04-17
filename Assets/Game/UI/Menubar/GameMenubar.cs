@@ -16,9 +16,13 @@ public class GameMenubar : MonoBehaviour
 
     public void SetRound(PubSubListenerEvent e)
     {
-        var round = (int)e.value;
+        var currentRound = (int)e.value;
 
-        RoundLabel.text = $"Round {round}";
+        var levelManager = FindAnyObjectByType<LevelManager>();
+        var levelNumber = levelManager.CurrentLevelNumber;
+        var maxRound = levelManager.ActiveLevel.RoundCount;
+
+        RoundLabel.text = $"Level {levelNumber + 1} | Round {currentRound}/{maxRound}";
     }
 
     public void SetMana(PubSubListenerEvent e)

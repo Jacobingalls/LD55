@@ -18,6 +18,23 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public int CurrentLevelNumber
+    {
+        get
+        {
+            return Mathf.Max(_currentLevelIndex, 0);
+        }
+    }
+
+    public int LevelCount
+    {
+        get
+        {
+            return _levels.Count;
+        }
+    }
+
+
     private int _currentLevelIndex = -1;
 
     private void Awake()

@@ -142,6 +142,14 @@ public class GameLevel : MonoBehaviour
         DrawPlayerHand();
     }
 
+    public int RoundCount
+    {
+        get
+        {
+            return WaveManager.Waves.Count;
+        }
+    }
+
     public void DrawPlayerHand()
     {
         GetComponent<PubSubSender>().Publish("hand.discard.all");
