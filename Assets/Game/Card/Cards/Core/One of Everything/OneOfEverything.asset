@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: OneOfEverything
   m_EditorClassIdentifier: 
   Name: One of Everything
-  Description: One draw, One Mana, and One action all in one.
+  Description: '<sprite name=action>: One draw, One Mana, and One action all in one.'
   FlavorText: '"Failing to plan is planning to fail"'
   Icon: {fileID: 21300000, guid: 9fd3f07b736dd457abeb8f67c1879436, type: 3}
   PlacementIcon: {fileID: 21300000, guid: 9fd3f07b736dd457abeb8f67c1879436, type: 3}
