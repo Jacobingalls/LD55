@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using info.jacobingalls.jamkit;
+using System.Runtime.CompilerServices;
 
 [RequireComponent(typeof(PubSubSender))]
 public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
@@ -45,7 +46,29 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     [Range(0f, 1f)]
     public float progress;
 
-    public bool isSelected = false;
+    public bool isSelected
+    {
+        get
+        {
+            return _isSelected;
+        }
+        set
+        {
+            if (_isSelected == value) { return; }
+            _isSelected = value;
+
+            if (_isSelected)
+            {
+                GetComponent<PubSubSender>().Publish("cardcursor.selected");
+            }
+            else
+            {
+                GetComponent<PubSubSender>().Publish("cardcursor.unselected");
+
+            }
+        }
+    }
+    private bool _isSelected = false;
     public bool isHovered = false;
     public CardExecutionContext? context;
 
@@ -176,23 +199,27 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Right) { isSelected = false; context = null; return; }
+        if (eventData.button == PointerEventData.InputButton.Right) {
+            isSelected = false; 
+            context = null;
+            return; 
+        }
         if (eventData.button != PointerEventData.InputButton.Left) { return; }
         isSelected = true;
-
-        GetComponent<PubSubSender>().Publish("cardcursor.selected");
 
         PlayCardPlayAudio();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (eventData.button == PointerEventData.InputButton.Right) { isSelected = false; context = null; return; }
+        if (eventData.button == PointerEventData.InputButton.Right) {
+            isSelected = false; 
+            context = null; 
+            return; 
+        }
         if (eventData.button != PointerEventData.InputButton.Left) { return; }
 
         isSelected = false;
-
-        GetComponent<PubSubSender>().Publish("cardcursor.unselected");
 
         // Check if we were dropped.
         if (context != null)

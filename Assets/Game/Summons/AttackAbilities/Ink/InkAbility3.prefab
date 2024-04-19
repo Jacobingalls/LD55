@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1989225723957066079}
   - component: {fileID: 910441736817006832}
   m_Layer: 0
-  m_Name: Ink_SingleShotHomingAttack
+  m_Name: InkAbility3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,14 +45,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TargetType: 0
-  Cooldown: 0.7
+  Cooldown: 1
   ProjectilePrefabs:
   - {fileID: 6587467032967532180, guid: b625e55921ac5dc43a83a76752ef0ff5, type: 3}
   RandomProjectileHeading: 1
-  RandomAngleMin: -20
-  RandomAngleMax: 20
+  RandomAngleMin: -50
+  RandomAngleMax: 50
   SpawnJitter: 1
   JitterMin: {x: -0.1, y: -0.1, z: 0}
   JitterMax: {x: 0.1, y: 0.1, z: 0}
-  NumProjectilesInVolley: 1
-  TimeBetweenProjectilesInVolley: 0.2
+  NumProjectilesInVolley: 5
+  TimeBetweenProjectilesInVolley: 0.1

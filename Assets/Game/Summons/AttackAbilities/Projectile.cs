@@ -22,7 +22,7 @@ public class Projectile : MonoBehaviour, IDamageSource
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private Targetable _target;
     [SerializeField] private GameObject _explosionPrefab;
-    private GameLevel _world;
+    private LevelManager _levelManager;
 
     [Header("Movement")]
     [SerializeField] private float _speed = 15;
@@ -40,28 +40,51 @@ public class Projectile : MonoBehaviour, IDamageSource
 
     // Lifespan
     private float _remainingTargetlessLife = 5.0f;
+    private bool _isDoomedToDie = false;
 
     void FindTarget()
     {
+        if (_isDoomedToDie)
+        {
+            return;
+
+        }
         if (_target != null)
         {
             return;
         }
 
-        if (_world == null)
+        if (_levelManager == null)
         {
-            _world = FindObjectOfType<GameLevel>();
+            _levelManager = FindObjectOfType<LevelManager>();
         }
 
-        var units = _world.Units;
+        var units = _levelManager.ActiveLevel.Units;
 
         if (units.Count == 0)
         {
             return;
         }
 
-        _target = units.First().GetComponent<Targetable>();
-        _previousTargetPosition = _target.transform.position;
+        var target = units.First();
+        var distance = Vector3.Distance(units.First().transform.position, transform.position);
+        foreach (var unit in units)
+        {
+            var newDistance = Vector3.Distance(unit.transform.position, transform.position);
+            if (newDistance < distance)
+            {
+                target = unit;
+                distance = newDistance;
+            }
+        }
+
+        var targetable = target.GetComponent<Targetable>();
+
+        const float maxDistance = 5.0f;
+        if (targetable != null && distance < maxDistance)
+        {
+            SetTarget(targetable);
+        }
     }
 
     public void SetTarget(Targetable target)
@@ -94,10 +117,19 @@ public class Projectile : MonoBehaviour, IDamageSource
         if (_target == null)
         {
             _remainingTargetlessLife -= Time.fixedDeltaTime;
+
+            // If a projectile has been targetless for a while, don't try to find a target. just sail off into the void
+            if (_remainingTargetlessLife < _remainingTargetlessLife - 0.1f)
+            {
+                _isDoomedToDie = true;
+            }
+
             if (_remainingTargetlessLife < 0.0f)
             {
                 Destroy(gameObject);
             }
+
+            FindTarget();
             return;
         }
 
