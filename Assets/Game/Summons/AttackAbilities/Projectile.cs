@@ -39,7 +39,8 @@ public class Projectile : MonoBehaviour, IDamageSource
     [SerializeField] private float _deviationSpeed = 2;
 
     // Lifespan
-    private float _remainingTargetlessLife = 5.0f;
+    private const float _projectLifespanAfterDoom = 5.0f;
+    private float _remainingTargetlessLife = _projectLifespanAfterDoom;
     private bool _isDoomedToDie = false;
 
     void FindTarget()
@@ -80,7 +81,7 @@ public class Projectile : MonoBehaviour, IDamageSource
 
         var targetable = target.GetComponent<Targetable>();
 
-        const float maxDistance = 5.0f;
+        const float maxDistance = 6.0f;
         if (targetable != null && distance < maxDistance)
         {
             SetTarget(targetable);
@@ -119,7 +120,7 @@ public class Projectile : MonoBehaviour, IDamageSource
             _remainingTargetlessLife -= Time.fixedDeltaTime;
 
             // If a projectile has been targetless for a while, don't try to find a target. just sail off into the void
-            if (_remainingTargetlessLife < _remainingTargetlessLife - 0.1f)
+            if (_remainingTargetlessLife < _projectLifespanAfterDoom - 0.750f)
             {
                 _isDoomedToDie = true;
             }
