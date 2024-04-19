@@ -180,6 +180,8 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         if (eventData.button != PointerEventData.InputButton.Left) { return; }
         isSelected = true;
 
+        GetComponent<PubSubSender>().Publish("cardcursor.selected");
+
         PlayCardPlayAudio();
     }
 
@@ -189,6 +191,8 @@ public class CardCursor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
         if (eventData.button != PointerEventData.InputButton.Left) { return; }
 
         isSelected = false;
+
+        GetComponent<PubSubSender>().Publish("cardcursor.unselected");
 
         // Check if we were dropped.
         if (context != null)

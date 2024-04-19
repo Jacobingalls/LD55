@@ -152,7 +152,7 @@ public class Unit : MonoBehaviour, IDamageable
 
     private bool positionIsCloseEnoughToTarget(Vector3 destination)
     {
-        return Vector3.Distance(transform.position, destination) < 0.015f;
+        return Vector3.Distance(transform.position, destination) < 0.03f;
     }
 
     IEnumerator MoveAlongPath(List<Vector2Int> path, MoveCompletionHandler completionHandler)

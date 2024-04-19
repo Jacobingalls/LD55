@@ -9,6 +9,9 @@ hand.discard.all
 deck.draw.one
 deck.draw.number <int>
 
+cardcursor.selected
+cardcursor.unselected
+
 resource.mana.changed <int>
 resource.actions.changed <int>
 resource.buys.changed <int>
