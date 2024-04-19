@@ -1,9 +1,5 @@
 using info.jacobingalls.jamkit;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class RangeIndicator : MonoBehaviour
 {
